@@ -1,0 +1,2 @@
+[ -d "~/.local/bin" ] && export PATH=$PATH:~/.local/bin
+[ -d "~/AppData/Roaming/Python/Scripts" ] && export PATH=$PATH:~/AppData/Roaming/Python/Scripts

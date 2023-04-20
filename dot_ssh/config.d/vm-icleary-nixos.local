@@ -1,0 +1,5 @@
+Host vm-icleary-nixos.local   
+  HostName 127.0.0.1
+  Port 3022
+  User icleary
+  IdentityFile ~/.ssh/nixos_id_ed25519

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# After merging a Pull Request on a remote repo,
+# I run this command to switch to main
+
+git_after_merge () {
+
+    local default_branch="main"
+    local original_branch="$(git branch --show-current)"
+
+    git checkout "$default_branch" && git branch -D "$original_branch" && git pull origin "$default_branch"
+}

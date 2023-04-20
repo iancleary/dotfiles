@@ -1,0 +1,3 @@
+http://jellyfin.localhost {
+	reverse_proxy http://tower.tail2500d.ts.net:8096
+}

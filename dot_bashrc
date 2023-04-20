@@ -1,0 +1,31 @@
+SSH_KEY_SOURCE_FILE=~/.bash_ssh_keys
+
+if test -f "$SSH_KEY_SOURCE_FILE"; then
+    # start ssh-agent (important on windows and some shells)
+    echo "Ensure ssh-agent is started."
+    eval "$(ssh-agent -s)"
+    echo "Source ssh keys according to: $SSH_KEY_SOURCE_FILE"
+    source "$SSH_KEY_SOURCE_FILE"
+else
+    echo "no $SSH_KEY_SOURCE_FILE file found"
+fi
+
+
+ALIAS_FILE=~/.config/iancleary/bash/bash_aliases
+
+if test -f "$ALIAS_FILE" ; then
+    echo "Source aliases according to: $ALIAS_FILE"
+    source "$ALIAS_FILE"
+fi
+
+PATH_FILE=~/.config/iancleary/common/path_exports
+
+if test -f "$PATH_FILE" ; then
+    echo "Source export PATH= according to: $PATH_FILE"
+    source "$PATH_FILE"
+fi
+
+
+
+
+#eval "$(register-python-argcomplete pipx)"
