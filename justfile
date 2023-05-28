@@ -52,6 +52,10 @@ caddy command:
 jellyfin:
   {{ open_url }} http://jellyfin.localhost/
 
+# show brew tree of dependencies
+tree:
+  brew deps --tree --installed
+
 
 # show current version (in .env)
 # version:
