@@ -1,2 +1,11 @@
-[ -d "~/.local/bin" ] && export PATH=$PATH:~/.local/bin
-[ -d "~/AppData/Roaming/Python/Scripts" ] && export PATH=$PATH:~/AppData/Roaming/Python/Scripts
+if [ -d "$HOME/.local/bin" ]; then 
+  export PATH=$PATH:"$HOME/.local/bin"
+fi
+
+if [ -d "$HOME/.cargo/bin" ]; then
+  export PATH=$PATH:"$HOME/.cargo/bin"
+fi
+
+if [ -d "$HOME/AppData/Roaming/Python/Scripts" ]; then
+  export PATH=$PATH:"$HOME/AppData/Roaming/Python/Scripts"
+fi
