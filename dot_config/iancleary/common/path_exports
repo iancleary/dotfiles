@@ -1,2 +1,3 @@
 [ -d "~/.local/bin" ] && export PATH=$PATH:~/.local/bin
+[ -d "~/.cargo/bin" ] && export PATH=$PATH:~/.cargo/bin
 [ -d "~/AppData/Roaming/Python/Scripts" ] && export PATH=$PATH:~/AppData/Roaming/Python/Scripts
