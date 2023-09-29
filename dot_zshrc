@@ -178,6 +178,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
     alias code="/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code"
     export PATH="/opt/homebrew/opt/node@18/bin:$PATH"
     source ~/.config/iterm2/iterm2_shell_integration.zsh
+    eval "$(direnv hook zsh)"
 else
     # Unknown.
 fi
