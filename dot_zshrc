@@ -18,13 +18,6 @@ if test -f "$ALIAS_FILE" ; then
     source "$ALIAS_FILE"
 fi
 
-PATH_FILE=~/.config/iancleary/common/path_exports
-
-if test -f "$PATH_FILE" ; then
-    echo "Source export PATH= according to: $PATH_FILE"
-    source "$PATH_FILE"
-fi
-
 
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
@@ -55,8 +48,8 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 
     # installed powerlevel10k with homebrew
     # ZSH_THEME  works with ~/.oh-my-zsh/custom/themes/ git clones
-    if [ -f /opt/homebrew/opt/powerlevel10k/powerlevel10k.zsh-theme ]; then
-        source /opt/homebrew/opt/powerlevel10k/powerlevel10k.zsh-theme
+    if [ -f /opt/homebrew/opt/powerlevel10k/share/powerlevel10k.zsh-theme ]; then
+        source /opt/homebrew/opt/powerlevel10k/share/powerlevel10k.zsh-theme
     fi
 else
     # Unknown.
@@ -179,8 +172,20 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
     export PATH="/opt/homebrew/opt/node@18/bin:$PATH"
     source ~/.config/iterm2/iterm2_shell_integration.zsh
     eval "$(direnv hook zsh)"
+    PATH_FILE=~/.config/iancleary/macos/path_exports
+
+    if test -f "$PATH_FILE" ; then
+        echo "Source export PATH= according to: $PATH_FILE"
+        source "$PATH_FILE"
+    fi
 else
-    # Unknown.
+    # Windows.
+    PATH_FILE=~/.config/iancleary/windows/path_exports
+
+    if test -f "$PATH_FILE" ; then
+        echo "Source export PATH= according to: $PATH_FILE"
+        source "$PATH_FILE"
+    fi
 fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
