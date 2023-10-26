@@ -107,6 +107,9 @@ elif [[ "$OSTYPE" == *"darwin"* ]]; then
         echo "Source export PATH= according to: $PATH_FILE"
         source "$PATH_FILE"
     fi
+    
+    autoload -Uz compinit && compinit
+
 else
     # Windows.
     PATH_FILE=~/.config/iancleary/windows/path_exports
