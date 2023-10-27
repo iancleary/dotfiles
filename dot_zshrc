@@ -107,6 +107,10 @@ elif [[ "$OSTYPE" == *"darwin"* ]]; then
         echo "Source export PATH= according to: $PATH_FILE"
         source "$PATH_FILE"
     fi
+
+    if [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
+        . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+    fi
     
     autoload -Uz compinit && compinit
 
