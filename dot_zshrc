@@ -112,6 +112,13 @@ elif [[ "$OSTYPE" == *"darwin"* ]]; then
         . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
     fi
     
+    echo "Here"
+    
+    if [ -f /Users/iancleary/.gem/ruby/2.6.0/bin/colorls ]; then
+        echo "Inside"
+        export PATH=$PATH:/Users/iancleary/.gem/ruby/2.6.0/bin
+    fi
+ 
     autoload -Uz compinit && compinit
 
 else
