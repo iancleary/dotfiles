@@ -75,3 +75,6 @@ tree:
 
 #   sd '{{FROM}}' '{{TO}}' .env
 #   sd '{{FROM}}' '{{TO}}' README.md
+
+youtube-dl:
+  nix-shell -p youtube-dl-light ffmpeg
