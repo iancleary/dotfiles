@@ -96,6 +96,7 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     source ~/powerlevel10k/powerlevel10k.zsh-theme
     PATH=$PATH:~/.local/bin
     eval "$(direnv hook zsh)"
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
     # pass
 elif [[ "$OSTYPE" == *"darwin"* ]]; then
     # Mac OSX
