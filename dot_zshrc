@@ -93,6 +93,7 @@ fi
 
 # OS Specifics
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    source ~/powerlevel10k/powerlevel10k.zsh-theme
     # pass
 elif [[ "$OSTYPE" == *"darwin"* ]]; then
     # Mac OSX
