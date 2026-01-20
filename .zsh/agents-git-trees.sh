@@ -2,8 +2,14 @@
 
 function ga() {
   if [[ -z "$1" ]]; then
+    echo ""
     echo "Usage: ga [branch-name]"
-    exit 1
+    echo ""
+    echo "\033[31merror:    [branch-name] is missing\033[0m"
+    echo ""
+    echo "Please try again with a branch name"
+    echo ""
+    return 0
   fi
 
   local branch="$1"
