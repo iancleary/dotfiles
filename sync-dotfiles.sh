@@ -23,20 +23,35 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 HOME_DIR="$HOME"
 REPO_DIR="$SCRIPT_DIR"
 
-# Files to sync (non-executables in .zsh folder and .zshrc)
-# Format: "source_relative_path"
-DOTFILES=(
-    ".zshrc"
-    ".zshenv"
-    ".zprofile" 
-)
+# files to sync based on OS
+DOTFILES=()
+OPTIONAL_DOTFILES=()
 
-# Optional files (sync if they exist)
-OPTIONAL_DOTFILES=(
-    ".zsh/aliases.zsh"
-    ".zsh/agents-git-trees.sh"
-    ".p10k.zsh"
-)
+# Optional dotfiles
+OPTIONAL_DOTFILES+=(
+        ".common/agents-git-trees.sh"
+        ".common/aliases.sh"
+    )
+
+# Detect OS
+if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "cygwin" || "$OSTYPE" == "win32" ]]; then
+    # Windows
+    DOTFILES+=(
+        ".bashrc"
+        ".bash_profile"
+    )
+    # No optional files for Windows yet, or maybe aliases?
+    # Keeping it simple as per request
+else
+    # macOS / Linux (assume Zsh)
+    DOTFILES+=(
+        ".zshrc"
+        ".zshenv"
+        ".zprofile"
+        ".p10k.zsh"
+    )
+    
+fi
 
 print_header() {
     echo -e "${BLUE}╔════════════════════════════════════════════════════════════╗${NC}"

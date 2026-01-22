@@ -5,7 +5,7 @@ function ga() {
     echo ""
     echo "Usage: ga [branch-name]"
     echo ""
-    echo "\033[31merror:    [branch-name] is missing\033[0m"
+    printf "\033[31merror:    [branch-name] is missing\033[0m\n"
     echo ""
     echo "Please try again with a branch name"
     echo ""

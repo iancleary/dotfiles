@@ -25,10 +25,8 @@
 # -------------------------------------------------------------------------------------------------------------------------------
 
 # Load git shortcuts, 1> file redirects stdout to file
-[[ ! -f ~/.zsh/git.zsh ]] || source ~/.zsh/git.zsh 1>/dev/null 
-[[ ! -f ~/.zsh/agents-git-trees.sh ]] || source ~/.zsh/agents-git-trees.sh 1>/dev/null 
-[[ ! -f ~/.zsh/aliases.zsh ]] || source ~/.zsh/aliases.zsh 1>/dev/null 
-[[ ! -f ~/.zsh/vscode.zsh ]] || source ~/.zsh/vscode.zsh 1>/dev/null 
+[[ ! -f ~/.common/agents-git-trees.sh ]] || source ~/.common/agents-git-trees.sh 1>/dev/null 
+[[ ! -f ~/.common/aliases.sh ]] || source ~/.common/aliases.sh 1>/dev/null 
 
 # load nvm
 export NVM_DIR="$HOME/.nvm"
