@@ -44,7 +44,7 @@ fi
 [[ ! -f ~/.cargo/bin/just ]] || alias j=just 1>/dev/null
 [[ ! -f ~/.cargo/bin/bat ]] || alias cat=bat 1>/dev/null
 [[ ! -f ~/.cargo/bin/rg ]] || alias grep=rg 1>/dev/null
-[[ ! -f ~/.cargo/bin/zoxide ]] || eval "$(zoxide init zsh)" 1>/dev/null
+[[ ! -f ~/.cargo/bin/zoxide ]] || eval "$(zoxide init bash)" 1>/dev/null
 
 # https://github.com/dandavison/delta?tab=readme-ov-file#get-started
 [[ ! -f ~/.cargo/bin/delta ]] || git config --global core.pager delta 1>/dev/null
