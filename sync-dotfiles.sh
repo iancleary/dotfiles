@@ -49,6 +49,7 @@ else
         ".zshenv"
         ".zprofile"
         ".p10k.zsh"
+        ".claude/skills/interview/SKILL.md"
     )
     
 fi
