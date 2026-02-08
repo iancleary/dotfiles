@@ -35,6 +35,7 @@ COMMON_DOTFILES+=(
         ".claude/settings.json"
         ".codex/rules/user-policy.rules"
         ".claude/skills/interview/SKILL.md"
+        ".claude/skills/git-push-pr/SKILL.md"
     )
 
 # Optional dotfiles (synced only if they exist)
