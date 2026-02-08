@@ -14,7 +14,7 @@ This is a personal dotfiles repository that manages shell configurations across 
 
 The core synchronization script that manages bidirectional file syncing:
 
-**File path**: `/sync-dotfiles.sh` (428 lines)
+**File path**: `/sync-dotfiles.sh` (456 lines)
 
 **Key functions**:
 - `cmd_pull()`: Copies files from `$HOME` to repository (backup)
@@ -23,8 +23,8 @@ The core synchronization script that manages bidirectional file syncing:
 - `build_file_list()`: Builds list of files to sync based on OS
 
 **File tracking arrays**:
-- `DOTFILES[]`: Required files that must exist (OS-specific)
-- `OPTIONAL_DOTFILES[]`: Files synced only if they exist
+- `COMMON_DOTFILES[]`: Files synced on all platforms (shared utilities, Claude/Codex configs)
+- `DOTFILES[]`: OS-specific required files (bash files on Windows, zsh files on macOS/Linux)
 
 **OS Detection**: Uses `$OSTYPE` to determine platform and select appropriate files.
 
@@ -32,7 +32,7 @@ The core synchronization script that manages bidirectional file syncing:
 
 #### Bash Configuration
 
-**Files**: `.bashrc` (74 lines), `.bash_profile`
+**Files**: `.bashrc` (73 lines), `.bash_profile`
 
 **Key features**:
 - oh-my-bash framework with "font" theme (line 8)
@@ -44,7 +44,7 @@ The core synchronization script that manages bidirectional file syncing:
 
 #### Zsh Configuration
 
-**Files**: `.zshrc` (17 lines), `.zshenv`, `.zprofile`, `.p10k.zsh`
+**Files**: `.zshrc` (16 lines), `.zshenv`, `.zprofile`, `.p10k.zsh`
 
 **Key features**:
 - Powerlevel10k instant prompt (lines 4-9)
@@ -55,10 +55,10 @@ The core synchronization script that manages bidirectional file syncing:
 
 #### Aliases (`aliases.sh`)
 
-**File path**: `/.common/aliases.sh` (55 lines)
+**File path**: `/.common/aliases.sh` (54 lines)
 
 **Categories**:
-- File browsing: eza aliases (lines 4-8)
+- File browsing: eza aliases (lines 5-8)
 - History search: `hg` for history grep (line 11)
 - Git helpers: `cg` to go to git root (line 15)
 - Editor: `n` for nvim (line 18)
@@ -69,7 +69,7 @@ The core synchronization script that manages bidirectional file syncing:
 
 #### Git Worktree Helpers (`agents-git-trees.sh`)
 
-**File path**: `/.common/agents-git-trees.sh` (45 lines)
+**File path**: `/.common/agents-git-trees.sh` (44 lines)
 
 **Functions**:
 
@@ -89,7 +89,7 @@ The core synchronization script that manages bidirectional file syncing:
 
 #### Justfile
 
-**File path**: `/justfile` (19 lines)
+**File path**: `/justfile` (18 lines)
 
 **Recipes**:
 - `just help`: Show available commands
@@ -99,18 +99,25 @@ The core synchronization script that manages bidirectional file syncing:
 
 ### 5. Claude Code Integration
 
-**Directory**: `/.claude/skills/`
+**Directory**: `/.claude/`
 
-**Synced on**: macOS/Linux only (see `sync-dotfiles.sh` line 52)
+**Synced on**: All platforms via `COMMON_DOTFILES`
 
-#### Interview Skill (`interview/`)
+#### Settings (`settings.json`)
+
+Global Claude Code configuration with permission rules and plugins:
+- **Plugins**: rust-analyzer-lsp
+- **Allow**: git, cargo, rustc, docker, file operations, gh CLI
+- **Deny**: `cargo publish`
+
+#### Interview Skill (`skills/interview/`)
 
 Custom Claude skill for in-depth interviewing to create detailed specs.
 
 - **Invocation**: `/interview [instructions]`
 - **Tools**: AskUserQuestion, Write
 
-#### Git Push PR Skill (`git-push-pr/`)
+#### Git Push PR Skill (`skills/git-push-pr/`)
 
 Automates the full git workflow: stage files, commit, push, and create or update a pull request.
 
@@ -119,19 +126,32 @@ Automates the full git workflow: stage files, commit, push, and create or update
 - **Steps**: git add -> git commit -> git push origin HEAD -> gh pr create/edit
 - **Behavior**: Creates a new PR if none exists for the branch, otherwise updates the existing PR description
 
+### 6. Codex CLI Integration
+
+**Directory**: `/.codex/`
+
+**Synced on**: All platforms via `COMMON_DOTFILES`
+
+#### User Policy Rules (`rules/user-policy.rules`)
+
+Command execution approval rules for the Codex CLI:
+- **allow**: Read-only commands (pwd, ls, cat, rg, find, git status/diff/log)
+- **prompt**: Shell wrappers, network tools, mutating git/package operations
+- **forbidden**: Privilege escalation (sudo), destructive operations (rm -rf /, mkfs, shutdown)
+
 ## File Modification Guidelines
 
 ### When modifying sync-dotfiles.sh
 
 **Important sections**:
-- Lines 27-55: File lists (`DOTFILES[]`, `OPTIONAL_DOTFILES[]`)
-- Lines 36-55: OS detection and file selection
+- Lines 27-63: File lists (`COMMON_DOTFILES[]`, `DOTFILES[]`)
+- Lines 46-63: OS detection and file selection
 - Maintain both Windows and Unix file lists separately
 
 **Safe to modify**:
-- Adding files to `DOTFILES[]` or `OPTIONAL_DOTFILES[]`
+- Adding files to `COMMON_DOTFILES[]` or `DOTFILES[]`
 - Adjusting color codes (lines 12-17)
-- Adding new commands in main() switch (lines 373-424)
+- Adding new commands in main() switch (lines 398-454)
 
 **Dangerous to modify**:
 - Core sync logic in `cmd_pull()` and `cmd_push()`
@@ -168,8 +188,8 @@ Automates the full git workflow: stage files, commit, push, and create or update
 ### Adding a new dotfile to sync
 
 1. Edit `sync-dotfiles.sh`
-2. Add to `DOTFILES[]` (required) or `OPTIONAL_DOTFILES[]` (optional)
-3. Choose correct section based on OS (lines 37-55)
+2. Add to `COMMON_DOTFILES[]` (all platforms) or `DOTFILES[]` (OS-specific)
+3. Choose correct section based on OS (lines 46-63 for OS-specific, lines 32-39 for common)
 4. Test with `./sync-dotfiles.sh list`
 
 ### Testing sync without side effects
@@ -201,6 +221,7 @@ Automates the full git workflow: stage files, commit, push, and create or update
 **Current branch**: `main` (also the main/default branch)
 
 **Recent activity**:
+- PR #3 merged: Added git-push-pr skill, introduced `COMMON_DOTFILES`, added Claude settings
 - PR #2 merged: Added Claude interview skill
 - Updates for bash compatibility with zoxide
 - Renamed `.aliases.sh` → `aliases.sh`

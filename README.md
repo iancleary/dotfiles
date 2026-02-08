@@ -71,8 +71,13 @@ just status
 │   ├── aliases.sh       # Shell aliases (eza, docker, git, etc.)
 │   └── agents-git-trees.sh  # Git worktree helper functions
 ├── .claude/             # Claude Code configuration
+│   ├── settings.json    # Claude Code permissions and plugins
 │   └── skills/          # Custom Claude skills
-│       └── interview/   # Interview skill for spec creation
+│       ├── interview/   # Interview skill for spec creation
+│       └── git-push-pr/ # Git workflow automation skill
+├── .codex/              # Codex CLI configuration
+│   └── rules/
+│       └── user-policy.rules  # Command execution approval rules
 ├── sync-dotfiles.sh     # Dotfile synchronization utility
 ├── justfile             # Task runner recipes
 └── README.md            # This file
@@ -146,6 +151,14 @@ Available commands:
 
 ### What Gets Synced
 
+**Common (all platforms):**
+- `.common/agents-git-trees.sh`
+- `.common/aliases.sh`
+- `.claude/settings.json`
+- `.codex/rules/user-policy.rules`
+- `.claude/skills/interview/SKILL.md`
+- `.claude/skills/git-push-pr/SKILL.md`
+
 **Windows/Git Bash:**
 - `.bashrc`
 - `.bash_profile`
@@ -155,11 +168,6 @@ Available commands:
 - `.zshenv`
 - `.zprofile`
 - `.p10k.zsh`
-- `.claude/skills/interview/SKILL.md`
-
-**Optional (all platforms):**
-- `.common/aliases.sh`
-- `.common/agents-git-trees.sh`
 
 ### Safety Features
 
@@ -170,11 +178,19 @@ Available commands:
 
 ## Claude Code Integration
 
-This repository includes a custom Claude skill:
+This repository includes custom Claude skills:
 
 - **interview**: In-depth interviewing to create detailed specifications
+- **git-push-pr**: Automated git workflow (stage, commit, push, PR create/update)
 
-The skill is tracked and synced on macOS/Linux systems.
+Claude Code settings (`.claude/settings.json`) configure permissions and plugins across projects.
+
+## Codex CLI Integration
+
+Codex rules (`.codex/rules/user-policy.rules`) define command execution approval policies:
+- **allow**: Read-only commands (ls, cat, rg, git status/diff/log)
+- **prompt**: Mutating operations (git add/commit/push, package installs, shell wrappers)
+- **forbidden**: Dangerous commands (sudo, rm -rf /, mkfs, shutdown)
 
 ## Dependencies
 
@@ -204,13 +220,13 @@ The skill is tracked and synced on macOS/Linux systems.
 Edit `sync-dotfiles.sh` and add the file path to the appropriate array:
 
 ```bash
-# For required files
-DOTFILES+=(
+# For common files (all platforms)
+COMMON_DOTFILES+=(
     "path/to/your/file"
 )
 
-# For optional files
-OPTIONAL_DOTFILES+=(
+# For OS-specific files
+DOTFILES+=(
     "path/to/your/file"
 )
 ```
