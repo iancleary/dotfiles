@@ -1,0 +1,32 @@
+{
+  "enabledPlugins": {
+    "rust-analyzer-lsp@claude-plugins-official": true
+  },
+  "permissions": {
+    "allow": [
+      "Bash(git *)",
+      "Bash(cargo *)",
+      "Bash(rustc *)",
+      "Bash(docker *)",
+      "Bash(docker-compose *)",
+      "Bash(ls *)",
+      "Bash(which *)",
+      "Bash(wc *)",
+      "Bash(mkdir *)",
+      "Bash(cp *)",
+      "Bash(mv *)",
+      "Bash(cat *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(echo *)",
+      "Bash(grep *)",
+      "Bash(find *)",
+      "Bash(sed *)",
+      "Bash(awk *)",
+      "Bash(gh *)"
+    ],
+    "deny": [
+      "Bash(cargo publish*)"
+    ]
+  }
+}
