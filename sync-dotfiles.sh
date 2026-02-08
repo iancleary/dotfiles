@@ -31,6 +31,7 @@ OPTIONAL_DOTFILES=()
 OPTIONAL_DOTFILES+=(
         ".common/agents-git-trees.sh"
         ".common/aliases.sh"
+        ".claude/settings.json"
     )
 
 # Detect OS
