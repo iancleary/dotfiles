@@ -25,14 +25,21 @@ REPO_DIR="$SCRIPT_DIR"
 
 # files to sync based on OS
 DOTFILES=()
-OPTIONAL_DOTFILES=()
+COMMON_DOTFILES=()
+# OPTIONAL_DOTFILES=()
 
-# Optional dotfiles
-OPTIONAL_DOTFILES+=(
+# Common dotfiles (all platforms)
+COMMON_DOTFILES+=(
         ".common/agents-git-trees.sh"
         ".common/aliases.sh"
         ".claude/settings.json"
+        ".codex/rules/user-policy.rules"
+        ".claude/skills/interview/SKILL.md"
     )
+
+# Optional dotfiles (synced only if they exist)
+# OPTIONAL_DOTFILES+=(
+#     )
 
 # Detect OS
 if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "cygwin" || "$OSTYPE" == "win32" ]]; then
@@ -50,7 +57,6 @@ else
         ".zshenv"
         ".zprofile"
         ".p10k.zsh"
-        ".claude/skills/interview/SKILL.md"
     )
     
 fi
@@ -109,21 +115,36 @@ show_diff() {
     fi
 }
 
+# Ensure parent directories exist in repo for all tracked files
+ensure_repo_dirs() {
+    # for file in "${COMMON_DOTFILES[@]}" "${DOTFILES[@]}" "${OPTIONAL_DOTFILES[@]}"; do
+    for file in "${COMMON_DOTFILES[@]}" "${DOTFILES[@]}"; do
+
+        ensure_parent_dir "$REPO_DIR/$file"
+    done
+}
+
 # Build the list of all files to sync
 build_file_list() {
+    ensure_repo_dirs
     ALL_FILES=()
     
-    # Add required files
+    # Add common files (all platforms)
+    for file in "${COMMON_DOTFILES[@]}"; do
+        ALL_FILES+=("$file")
+    done
+
+    # Add OS-specific required files
     for file in "${DOTFILES[@]}"; do
         ALL_FILES+=("$file")
     done
     
     # Add optional files that exist in home or repo
-    for file in "${OPTIONAL_DOTFILES[@]}"; do
-        if file_exists "$HOME_DIR/$file" || file_exists "$REPO_DIR/$file"; then
-            ALL_FILES+=("$file")
-        fi
-    done
+    # for file in "${OPTIONAL_DOTFILES[@]}"; do
+    #     if file_exists "$HOME_DIR/$file" || file_exists "$REPO_DIR/$file"; then
+    #         ALL_FILES+=("$file")
+    #     fi
+    # done
 }
 
 # Pull files from home to repo (backup)
@@ -350,11 +371,17 @@ cmd_list() {
     info "Tracked dotfiles:"
     echo ""
     
-    echo "Required files:"
+    echo "Common files (all platforms):"
+    for file in "${COMMON_DOTFILES[@]}"; do
+        echo "  • $file"
+    done
+
+    echo ""
+    echo "OS-specific required files:"
     for file in "${DOTFILES[@]}"; do
         echo "  • $file"
     done
-    
+
     echo ""
     echo "Optional files (synced if they exist):"
     for file in "${OPTIONAL_DOTFILES[@]}"; do
@@ -410,7 +437,7 @@ main() {
             echo "  help    Show this help message"
             echo ""
             echo "Files synced:"
-            for file in "${DOTFILES[@]}"; do
+            for file in "${COMMON_DOTFILES[@]}" "${DOTFILES[@]}"; do
                 echo "  • $file"
             done
             ;;
