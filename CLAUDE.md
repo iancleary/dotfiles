@@ -99,11 +99,25 @@ The core synchronization script that manages bidirectional file syncing:
 
 ### 5. Claude Code Integration
 
-**Directory**: `/.claude/skills/interview/`
-
-Contains custom Claude skill for in-depth interviewing to create detailed specs.
+**Directory**: `/.claude/skills/`
 
 **Synced on**: macOS/Linux only (see `sync-dotfiles.sh` line 52)
+
+#### Interview Skill (`interview/`)
+
+Custom Claude skill for in-depth interviewing to create detailed specs.
+
+- **Invocation**: `/interview [instructions]`
+- **Tools**: AskUserQuestion, Write
+
+#### Git Push PR Skill (`git-push-pr/`)
+
+Automates the full git workflow: stage files, commit, push, and create or update a pull request.
+
+- **Invocation**: `/git-push-pr [commit message or instructions]`
+- **Tools**: Bash, Read, Glob, Grep
+- **Steps**: git add -> git commit -> git push origin HEAD -> gh pr create/edit
+- **Behavior**: Creates a new PR if none exists for the branch, otherwise updates the existing PR description
 
 ## File Modification Guidelines
 
