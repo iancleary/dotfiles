@@ -33,9 +33,11 @@ COMMON_DOTFILES+=(
         ".common/agents-git-trees.sh"
         ".common/aliases.sh"
         ".claude/settings.json"
-        ".codex/rules/user-policy.rules"
         ".claude/skills/interview/SKILL.md"
         ".claude/skills/git-push-pr/SKILL.md"
+        ".claude/skills/grill/SKILL.md"
+        ".codex/rules/user-policy.rules"
+        ".agents/skills/grill/SKILL.md"
     )
 
 # Optional dotfiles (synced only if they exist)
