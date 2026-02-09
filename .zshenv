@@ -41,10 +41,10 @@ export NVM_DIR="$HOME/.nvm"
 [[ ! -f ~/.cargo/bin/zoxide ]] || eval "$(zoxide init zsh)" 1>/dev/null
 
 # https://github.com/dandavison/delta?tab=readme-ov-file#get-started
-[[ ! -f ~/.cargo/bin/delta ]] || git config --global core.pager delta 1>/dev/null
-[[ ! -f ~/.cargo/bin/delta ]] || git config --global interactive.diffFilter 'delta --color-only' 1>/dev/null
-[[ ! -f ~/.cargo/bin/delta ]] || git config --global delta.navigate true 1>/dev/null
-[[ ! -f ~/.cargo/bin/delta ]] || git config --global merge.conflictStyle zdiff3 1>/dev/null
+# [[ ! -f ~/.cargo/bin/delta ]] || git config --global core.pager delta 1>/dev/null
+# [[ ! -f ~/.cargo/bin/delta ]] || git config --global interactive.diffFilter 'delta --color-only' 1>/dev/null
+# [[ ! -f ~/.cargo/bin/delta ]] || git config --global delta.navigate true 1>/dev/null
+# [[ ! -f ~/.cargo/bin/delta ]] || git config --global merge.conflictStyle zdiff3 1>/dev/null
 [[ ! -f ~/.cargo/bin/delta ]] || export DELTA_FEATURES=+side-by-side 1>/dev/null # activate 
 
 
