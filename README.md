@@ -58,6 +58,9 @@ cd ~/dotfiles
 │   ├── aliases.sh          # Shell aliases (eza, docker, git, etc.)
 │   └── agents-git-trees.sh # Git worktree helper functions (ga/gd)
 ├── .claude/                # Claude Code configuration
+│   ├── agents.md           # Operating manual (autonomy, git, safety)
+│   ├── principles.md       # Decision-making heuristics
+│   ├── soul.md             # Voice, character, identity
 │   ├── settings.json       # Permissions, plugins, MCP servers
 │   └── skills/             # Custom Claude skills
 │       ├── cargo-just/     # Smart Rust/just task runner
@@ -72,6 +75,9 @@ cd ~/dotfiles
 │       ├── grill/          # Shared grill skill
 │       └── slidev/         # Shared Slidev skill
 ├── .codex/                 # Codex CLI configuration
+│   ├── agents.md           # Operating manual
+│   ├── principles.md       # Decision-making heuristics
+│   ├── soul.md             # Voice and character
 │   ├── config.toml         # MCP servers (Playwright)
 │   └── rules/
 │       └── user-policy.rules  # Command execution approval rules
@@ -127,6 +133,18 @@ Modern CLI replacements and shortcuts:
 - **`gd`**: Delete current worktree and branch (interactive confirmation via gum)
 
 ## AI Agent Integration
+
+### Identity & Principles
+
+Both Claude Code and Codex share a three-layer identity architecture:
+
+| File | Purpose |
+|------|---------|
+| `soul.md` | Voice, character, relationship — who the agent is |
+| `principles.md` | Decision-making heuristics — how to navigate ambiguity |
+| `agents.md` | Operating manual — autonomy levels, git conventions, safety |
+
+These files live in both `.claude/` and `.codex/` (tailored to each tool's context) and are synced to `$HOME` alongside other dotfiles.
 
 ### Claude Code (.claude/)
 
