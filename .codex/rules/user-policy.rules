@@ -33,6 +33,58 @@ prefix_rule(pattern=["npm", "install"], decision="prompt")
 prefix_rule(pattern=["pnpm", "install"], decision="prompt")
 prefix_rule(pattern=["yarn", "install"], decision="prompt")
 
+# --- Cargo (Rust) ---
+# Read-only cargo commands
+prefix_rule(pattern=["cargo", "check"], decision="allow")
+prefix_rule(pattern=["cargo", "clippy"], decision="allow")
+prefix_rule(pattern=["cargo", "fmt", "--check"], decision="allow")
+prefix_rule(pattern=["cargo", "doc"], decision="allow")
+prefix_rule(pattern=["cargo", "tree"], decision="allow")
+prefix_rule(pattern=["cargo", "metadata"], decision="allow")
+
+# Mutating cargo commands (build artifacts, modify lock file)
+prefix_rule(pattern=["cargo", "build"], decision="prompt")
+prefix_rule(pattern=["cargo", "test"], decision="prompt")
+prefix_rule(pattern=["cargo", "run"], decision="prompt")
+prefix_rule(pattern=["cargo", "fmt"], decision="prompt")
+prefix_rule(pattern=["cargo", "add"], decision="prompt")
+prefix_rule(pattern=["cargo", "remove"], decision="prompt")
+prefix_rule(pattern=["cargo", "install"], decision="prompt")
+prefix_rule(pattern=["cargo", "publish"], decision="forbidden", justification="Publishing crates requires explicit human action.")
+
+# --- Just (task runner) ---
+prefix_rule(pattern=["just", "--list"], decision="allow")
+prefix_rule(pattern=["just", "--summary"], decision="allow")
+prefix_rule(pattern=["just"], decision="prompt")
+
+# --- Docker Compose ---
+prefix_rule(pattern=["docker", "compose", "ps"], decision="allow")
+prefix_rule(pattern=["docker", "compose", "logs"], decision="allow")
+prefix_rule(pattern=["docker", "compose", "config"], decision="allow")
+prefix_rule(pattern=["docker", "compose", "up"], decision="prompt")
+prefix_rule(pattern=["docker", "compose", "down"], decision="prompt")
+prefix_rule(pattern=["docker", "compose", "build"], decision="prompt")
+prefix_rule(pattern=["docker", "compose", "exec"], decision="prompt")
+prefix_rule(pattern=["docker", "compose", "rm"], decision="prompt")
+
+# --- Tailscale ---
+prefix_rule(pattern=["tailscale", "status"], decision="allow")
+prefix_rule(pattern=["tailscale", "ip"], decision="allow")
+prefix_rule(pattern=["tailscale", "ping"], decision="allow")
+prefix_rule(pattern=["tailscale", "whois"], decision="allow")
+prefix_rule(pattern=["tailscale", "serve", "status"], decision="allow")
+prefix_rule(pattern=["tailscale", "serve"], decision="prompt")
+prefix_rule(pattern=["tailscale", "funnel"], decision="prompt")
+prefix_rule(pattern=["tailscale", "up"], decision="prompt")
+prefix_rule(pattern=["tailscale", "down"], decision="prompt")
+
+# --- Safe read-only CLI tools ---
+prefix_rule(pattern=["eza"], decision="allow")
+prefix_rule(pattern=["fd"], decision="allow")
+prefix_rule(pattern=["bat"], decision="allow")
+prefix_rule(pattern=["dust"], decision="allow")
+prefix_rule(pattern=["tokei"], decision="allow")
+
 # Forbid clearly dangerous/destructive commands.
 prefix_rule(pattern=["sudo"], decision="forbidden", justification="Privilege escalation is blocked by global policy.")
 prefix_rule(pattern=["rm", "-rf", "/"], decision="forbidden", justification="Recursive delete from filesystem root is unsafe.")
