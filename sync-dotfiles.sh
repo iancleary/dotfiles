@@ -32,6 +32,9 @@ COMMON_DOTFILES=()
 COMMON_DOTFILES+=(
         ".common/agents-git-trees.sh"
         ".common/aliases.sh"
+        ".claude/agents.md"
+        ".claude/principles.md"
+        ".claude/soul.md"
         ".claude/settings.json"
         ".claude/skills/interview/SKILL.md"
         ".claude/skills/git-push-pr/SKILL.md"
@@ -39,6 +42,9 @@ COMMON_DOTFILES+=(
         ".claude/skills/cargo-just/SKILL.md"
         ".claude/skills/code-review/SKILL.md"
         ".claude/skills/test-writer/SKILL.md"
+        ".codex/agents.md"
+        ".codex/principles.md"
+        ".codex/soul.md"
         ".codex/rules/user-policy.rules"
         ".agents/skills/grill/SKILL.md"
     )

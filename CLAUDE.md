@@ -49,7 +49,16 @@ Bidirectional file syncing between `$HOME` and this repo.
 - `ga [branch]`: Creates worktree at `../{branch}--{repo-name}`, switches to it, returns 1 to trigger cd
 - `gd`: Deletes current worktree + branch, uses `gum confirm` for safety
 
-### 4. Claude Code (.claude/)
+### 4. Identity Files (.claude/ and .codex/)
+
+Both tool directories contain three identity files:
+- **agents.md**: Operating manual — autonomy levels, git conventions, toolchains, safety
+- **principles.md**: Decision-making heuristics — build vs. plan, friction as signal, correctness over convenience
+- **soul.md**: Voice and character — direct, casual, competent, opinionated
+
+Claude Code versions are more detailed; Codex versions are condensed for that tool's context.
+
+### 5. Claude Code (.claude/)
 
 **settings.json**: Permissions (allow git/cargo/gh/file ops, deny cargo publish), rust-analyzer-lsp plugin, Playwright MCP server
 
@@ -64,13 +73,13 @@ Bidirectional file syncing between `$HOME` and this repo.
 | slidev | Developer slide presentations (symlink → .agents) | — |
 | test-writer | Generate tests for existing code | Bash, Read, Write, Glob, Grep |
 
-### 5. Shared Agent Skills (.agents/)
+### 6. Shared Agent Skills (.agents/)
 
 Cross-tool skills shared between Claude Code, Codex, and other agents:
 - `.agents/skills/grill/` — shared grill skill
 - `.agents/skills/slidev/` — Slidev presentation skill (Claude Code symlinks to this)
 
-### 6. Codex CLI (.codex/)
+### 7. Codex CLI (.codex/)
 
 **config.toml**: Playwright MCP server (`npx @playwright/mcp@latest`)
 
@@ -79,7 +88,7 @@ Cross-tool skills shared between Claude Code, Codex, and other agents:
 - **prompt**: Mutating (git add/commit/push, cargo build/test/run, npm/pnpm install, docker compose up/down, tailscale serve, curl/wget, just tasks)
 - **forbidden**: Dangerous (sudo, rm -rf /, cargo publish, mkfs, shutdown, reboot)
 
-### 7. Task Runner (justfile)
+### 8. Task Runner (justfile)
 
 Recipes: `help`, `pull`, `push`, `status` — wrappers for `sync-dotfiles.sh`
 
