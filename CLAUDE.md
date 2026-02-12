@@ -1,272 +1,132 @@
 # Claude Code Reference
 
-This document provides context for Claude Code when working with this dotfiles repository.
+Context for Claude Code when working with this dotfiles repository.
 
 ## Repository Purpose
 
-This is a personal dotfiles repository that manages shell configurations across multiple operating systems:
-- **Windows/Git Bash**: Uses bash with oh-my-bash
-- **macOS/Linux**: Uses zsh with Powerlevel10k
+Personal dotfiles managing shell configs across platforms:
+- **Windows/Git Bash**: bash with oh-my-bash
+- **macOS/Linux**: zsh with Powerlevel10k
 
 ## Key Components
 
 ### 1. Sync Utility (`sync-dotfiles.sh`)
 
-The core synchronization script that manages bidirectional file syncing:
+Bidirectional file syncing between `$HOME` and this repo.
 
-**File path**: `/sync-dotfiles.sh` (456 lines)
+**Commands**: `pull` (backup), `push` (restore), `status`, `diff <file>`, `list`, `add`, `help`
 
-**Key functions**:
-- `cmd_pull()`: Copies files from `$HOME` to repository (backup)
-- `cmd_push()`: Copies files from repository to `$HOME` (restore)
-- `cmd_status()`: Shows diff status between home and repo
-- `build_file_list()`: Builds list of files to sync based on OS
+**File tracking**:
+- `COMMON_DOTFILES[]`: All platforms (shared utilities, Claude/Codex configs, agent skills)
+- `DOTFILES[]`: OS-specific (bash on Windows, zsh on macOS/Linux)
+- `SYNCED_SKILL_DIRS[]`: Dynamically discovered skill directories (files auto-tracked)
 
-**File tracking arrays**:
-- `COMMON_DOTFILES[]`: Files synced on all platforms (shared utilities, Claude/Codex configs)
-- `DOTFILES[]`: OS-specific required files (bash files on Windows, zsh files on macOS/Linux)
+**OS detection**: `$OSTYPE` → selects platform-specific files.
 
-**OS Detection**: Uses `$OSTYPE` to determine platform and select appropriate files.
+**Safety**: Timestamped backups before overwrite, `cmp -s` skip for identical files.
 
 ### 2. Shell Configurations
 
-#### Bash Configuration
+#### Bash (.bashrc, .bash_profile)
+- oh-my-bash with "font" theme
+- Sources `.common/` utilities
+- Cargo tools: just, bat, rg, zoxide, delta
+- SSH key auto-loading, NVM, Terraform, Go, Python/uv
 
-**Files**: `.bashrc` (73 lines), `.bash_profile`
+#### Zsh (.zshrc, .zshenv, .zprofile, .p10k.zsh)
+- Powerlevel10k instant prompt (MUST stay near top of .zshrc)
+- Delegates config to `.zshenv`/`.zprofile`
 
-**Key features**:
-- oh-my-bash framework with "font" theme (line 8)
-- Sources shared utilities from `.common/` (lines 38-39)
-- Cargo/Rust tools: just, bat, rg, zoxide, delta (lines 42-54)
-- SSH key auto-loading (line 66)
-- NVM integration (lines 69-71)
-- Terraform path setup (line 74)
+#### Git (.gitconfig)
+- delta as pager, zdiff3 merge conflict style
+- User: iancleary / iancleary@hey.com
 
-#### Zsh Configuration
+### 3. Shared Utilities (.common/)
 
-**Files**: `.zshrc` (16 lines), `.zshenv`, `.zprofile`, `.p10k.zsh`
+**aliases.sh**: eza (l/ll/la/ls/left), git (g/gc/gf/gpoc/cg), editors (n=nvim), pnpm/bun shortcuts, docker (d/dc/di), cargo/just (c/j), history grep (hg)
 
-**Key features**:
-- Powerlevel10k instant prompt (lines 4-9)
-- Minimal configuration delegates to other files
-- P10k theme customization loaded from `.p10k.zsh`
+**agents-git-trees.sh**:
+- `ga [branch]`: Creates worktree at `../{branch}--{repo-name}`, switches to it, returns 1 to trigger cd
+- `gd`: Deletes current worktree + branch, uses `gum confirm` for safety
 
-### 3. Shared Utilities (`.common/`)
+### 4. Claude Code (.claude/)
 
-#### Aliases (`aliases.sh`)
+**settings.json**: Permissions (allow git/cargo/gh/file ops, deny cargo publish), rust-analyzer-lsp plugin, Playwright MCP server
 
-**File path**: `/.common/aliases.sh` (54 lines)
+**Skills** (7 total):
+| Skill | Description | Tools |
+|-------|-------------|-------|
+| cargo-just | Rust/just task runner | Bash, Read, Glob |
+| code-review | Code review for quality/bugs/style | Bash, Read, Glob, Grep |
+| git-push-pr | Git add → commit → push → PR create/update | Bash, Read, Glob, Grep |
+| grill | Interrogate idea before planning | AskUserQuestion, Write |
+| interview | In-depth spec creation | AskUserQuestion, Write |
+| slidev | Developer slide presentations (symlink → .agents) | — |
+| test-writer | Generate tests for existing code | Bash, Read, Write, Glob, Grep |
 
-**Categories**:
-- File browsing: eza aliases (lines 5-8)
-- History search: `hg` for history grep (line 11)
-- Git helpers: `cg` to go to git root (line 15)
-- Editor: `n` for nvim (line 18)
-- Package managers: pnpm and bun shortcuts (lines 19-36)
-- Docker: `d`, `dc`, `di` shortcuts (lines 39-45)
-- Rust/Just: `c`, `j` aliases (lines 48-49)
-- Git: Common operations (lines 51-55)
+### 5. Shared Agent Skills (.agents/)
 
-#### Git Worktree Helpers (`agents-git-trees.sh`)
+Cross-tool skills shared between Claude Code, Codex, and other agents:
+- `.agents/skills/grill/` — shared grill skill
+- `.agents/skills/slidev/` — Slidev presentation skill (Claude Code symlinks to this)
 
-**File path**: `/.common/agents-git-trees.sh` (44 lines)
+### 6. Codex CLI (.codex/)
 
-**Functions**:
+**config.toml**: Playwright MCP server (`npx @playwright/mcp@latest`)
 
-1. **`ga [branch-name]`** (lines 3-22):
-   - Creates new branch and worktree
-   - Naming pattern: `../{branch}--{base-repo-name}`
-   - Automatically changes to new worktree directory
-   - Returns 1 (triggers cd in shell)
+**user-policy.rules**: Tiered command approval:
+- **allow**: Read-only (ls, cat, rg, git status/diff/log, cargo check/clippy/fmt --check, eza, bat, etc.)
+- **prompt**: Mutating (git add/commit/push, cargo build/test/run, npm/pnpm install, docker compose up/down, tailscale serve, curl/wget, just tasks)
+- **forbidden**: Dangerous (sudo, rm -rf /, cargo publish, mkfs, shutdown, reboot)
 
-2. **`gd`** (lines 24-44):
-   - Deletes current worktree and branch
-   - Uses `gum confirm` for safety
-   - Parses worktree name to extract branch and root
-   - Protects against deleting non-worktree directories
+### 7. Task Runner (justfile)
 
-### 4. Task Automation
-
-#### Justfile
-
-**File path**: `/justfile` (18 lines)
-
-**Recipes**:
-- `just help`: Show available commands
-- `just pull`: Wrapper for `./sync-dotfiles.sh pull`
-- `just push`: Wrapper for `./sync-dotfiles.sh push`
-- `just status`: Wrapper for `./sync-dotfiles.sh status`
-
-### 5. Claude Code Integration
-
-**Directory**: `/.claude/`
-
-**Synced on**: All platforms via `COMMON_DOTFILES`
-
-#### Settings (`settings.json`)
-
-Global Claude Code configuration with permission rules and plugins:
-- **Plugins**: rust-analyzer-lsp
-- **Allow**: git, cargo, rustc, docker, file operations, gh CLI
-- **Deny**: `cargo publish`
-
-#### Interview Skill (`skills/interview/`)
-
-Custom Claude skill for in-depth interviewing to create detailed specs.
-
-- **Invocation**: `/interview [instructions]`
-- **Tools**: AskUserQuestion, Write
-
-#### Git Push PR Skill (`skills/git-push-pr/`)
-
-Automates the full git workflow: stage files, commit, push, and create or update a pull request.
-
-- **Invocation**: `/git-push-pr [commit message or instructions]`
-- **Tools**: Bash, Read, Glob, Grep
-- **Steps**: git add -> git commit -> git push origin HEAD -> gh pr create/edit
-- **Behavior**: Creates a new PR if none exists for the branch, otherwise updates the existing PR description
-
-### 6. Codex CLI Integration
-
-**Directory**: `/.codex/`
-
-**Synced on**: All platforms via `COMMON_DOTFILES`
-
-#### User Policy Rules (`rules/user-policy.rules`)
-
-Command execution approval rules for the Codex CLI:
-- **allow**: Read-only commands (pwd, ls, cat, rg, find, git status/diff/log)
-- **prompt**: Shell wrappers, network tools, mutating git/package operations
-- **forbidden**: Privilege escalation (sudo), destructive operations (rm -rf /, mkfs, shutdown)
+Recipes: `help`, `pull`, `push`, `status` — wrappers for `sync-dotfiles.sh`
 
 ## File Modification Guidelines
 
-### When modifying sync-dotfiles.sh
+### sync-dotfiles.sh
+- File lists: `COMMON_DOTFILES[]`, `DOTFILES[]`, `SYNCED_SKILL_DIRS[]`
+- For new skills with multiple files, add the dir to `SYNCED_SKILL_DIRS[]` for auto-discovery
+- For single files, add directly to `COMMON_DOTFILES[]`
+- Don't modify core sync logic (cmd_pull/cmd_push) without care
 
-**Important sections**:
-- Lines 27-63: File lists (`COMMON_DOTFILES[]`, `DOTFILES[]`)
-- Lines 46-63: OS detection and file selection
-- Maintain both Windows and Unix file lists separately
+### Shell configs
+- **Bash**: Keep oh-my-bash setup at top, source `.common/` before tools
+- **Zsh**: Powerlevel10k instant prompt MUST stay near top of `.zshrc`; actual config goes in `.zshenv`/`.zprofile`
 
-**Safe to modify**:
-- Adding files to `COMMON_DOTFILES[]` or `DOTFILES[]`
-- Adjusting color codes (lines 12-17)
-- Adding new commands in main() switch (lines 398-454)
-
-**Dangerous to modify**:
-- Core sync logic in `cmd_pull()` and `cmd_push()`
-- File comparison logic (uses `cmp -s`)
-- Backup naming pattern (line 195)
-
-### When modifying shell configs
-
-**Bash (.bashrc)**:
-- Keep oh-my-bash setup at top (lines 3-32)
-- Source shared utilities before tools (lines 38-39)
-- Tool initialization order matters for aliases
-- Silent output with `1>/dev/null` or `2>/dev/null`
-
-**Zsh (.zshrc)**:
-- Powerlevel10k instant prompt MUST be near top
-- Don't add anything after line 13 comment
-- Actual config goes in `.zshenv` or `.zprofile`
-
-### When modifying shared utilities
-
-**aliases.sh**:
-- Keep categorized with comments
-- Order doesn't matter (all aliases)
-- Safe to add new aliases anywhere
-
-**agents-git-trees.sh**:
-- `ga` function returns 1 to trigger cd in calling shell
-- `gd` requires `gum` to be installed
-- Worktree naming convention: `{branch}--{repo-name}`
-
-## Common Tasks
-
-### Adding a new dotfile to sync
-
-1. Edit `sync-dotfiles.sh`
-2. Add to `COMMON_DOTFILES[]` (all platforms) or `DOTFILES[]` (OS-specific)
-3. Choose correct section based on OS (lines 46-63 for OS-specific, lines 32-39 for common)
-4. Test with `./sync-dotfiles.sh list`
-
-### Testing sync without side effects
-
-```bash
-# Check status without modifying anything
-./sync-dotfiles.sh status
-
-# See what would be synced
-./sync-dotfiles.sh list
-
-# See detailed diff for specific file
-./sync-dotfiles.sh diff .zshrc
-```
-
-### Debugging shell config issues
-
-**Bash**:
-- Check if oh-my-bash is installed: `ls -la ~/.oh-my-bash`
-- Verify cargo tools: `ls -la ~/.cargo/bin/`
-- Test shared utils: `source ~/.common/aliases.sh`
-
-**Zsh**:
-- Check P10k: `ls -la ~/powerlevel10k`
-- Verify instant prompt cache: `ls -la ~/.cache/p10k-*`
+### Adding a new skill
+1. Create `.claude/skills/<name>/SKILL.md` (or `.agents/skills/<name>/` if shared)
+2. Add to `COMMON_DOTFILES[]` or `SYNCED_SKILL_DIRS[]` in sync-dotfiles.sh
+3. If shared, symlink from `.claude/skills/<name>` → `../../.agents/skills/<name>`
 
 ## Git Context
 
-**Current branch**: `main` (also the main/default branch)
+**Default branch**: `main`
 
-**Recent activity**:
-- PR #3 merged: Added git-push-pr skill, introduced `COMMON_DOTFILES`, added Claude settings
-- PR #2 merged: Added Claude interview skill
-- Updates for bash compatibility with zoxide
-- Renamed `.aliases.sh` → `aliases.sh`
-- Made compatible with both Git Bash (Windows) and Zsh (macOS)
+**Recent PRs (merged)**:
+- #10: Dynamic skill dir syncing for slidev
+- #9: Add slidev to sync
+- #8: Implement OpenClaw improvement suggestions
+- #7: Add Slidev skill
+- #6: Add Playwright MCP to Claude Code and Codex
+- #5: OpenClaw improvements
+- #4: Update README.md and CLAUDE.md
+- #3: git-push-pr skill + COMMON_DOTFILES
+- #2: Interview skill
 
-## Dependencies
+## Common Tasks
 
-### Required for full functionality
-- eza, bat, delta, zoxide, just, rg (installed via cargo)
-- gum (for interactive git worktree deletion)
-- oh-my-bash (Windows/Git Bash)
-- Powerlevel10k (macOS/Linux with zsh)
+```bash
+# Check sync status
+./sync-dotfiles.sh status
 
-### Optional
-- lazygit (aliased as `lg`)
-- nvim (aliased as `n`)
-- delta (enhanced git diffs)
+# Add a new single dotfile
+# Edit sync-dotfiles.sh → add to COMMON_DOTFILES[] or DOTFILES[]
 
-## Architecture Notes
+# Add a multi-file skill directory
+# Edit sync-dotfiles.sh → add to SYNCED_SKILL_DIRS[]
 
-### Cross-platform strategy
-- Separate file lists for Windows vs Unix
-- Shared utilities in `.common/` work across platforms
-- Conditional sourcing with `[[ ! -f ... ]] || source ...`
-
-### Sync safety features
-1. **Backup before overwrite**: Timestamped `.backup.{date}` files
-2. **Diff detection**: Uses `cmp -s` to skip identical files
-3. **Directory creation**: Auto-creates parent directories
-4. **Reporting**: Clear success/skip/error counts
-
-### Modern CLI replacements
-- `cat` → `bat` (syntax highlighting)
-- `ls` → `eza` (icons, colors)
-- `cd` → `zoxide` (smart jumping)
-- `grep` → `rg` (ripgrep, faster)
-- git pager → `delta` (better diffs)
-- task runner → `just` (make alternative)
-
-## When to Update This File
-
-Update CLAUDE.md when:
-- Adding new dotfiles to sync
-- Adding new scripts or utilities
-- Changing sync behavior or patterns
-- Adding new dependencies or tools
-- Modifying shell configuration structure
-- Adding new Claude skills
+# Test what would sync
+./sync-dotfiles.sh list
+```

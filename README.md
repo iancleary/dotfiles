@@ -12,14 +12,13 @@ This repository manages dotfiles for multiple operating systems with a sync util
 - **Bidirectional sync**: Pull from home to backup, push from repo to restore
 - **Shell enhancements**: Modern CLI tools (eza, bat, delta, zoxide, just)
 - **Git worktree helpers**: Functions for managing git worktrees efficiently
-- **Claude Code integration**: Custom skills for enhanced development workflow
+- **Claude Code integration**: Custom skills and Playwright MCP for enhanced development workflow
+- **Codex CLI integration**: Command approval policies and MCP servers
 - **Safe operations**: Automatic backups before overwriting files
 
 ## Quick Start
 
 ### Installation
-
-Clone this repository:
 
 ```bash
 git clone <your-repo-url> ~/dotfiles
@@ -29,82 +28,81 @@ cd ~/dotfiles
 ### Restore dotfiles to your system
 
 ```bash
-# Interactive menu
-./sync-dotfiles.sh
-
-# Or directly push to home directory
-./sync-dotfiles.sh push
-
-# Using just
-just push
+./sync-dotfiles.sh push    # or: just push
 ```
 
 ### Backup current dotfiles
 
 ```bash
-./sync-dotfiles.sh pull
-
-# Using just
-just pull
+./sync-dotfiles.sh pull    # or: just pull
 ```
 
 ### Check sync status
 
 ```bash
-./sync-dotfiles.sh status
-
-# Using just
-just status
+./sync-dotfiles.sh status  # or: just status
 ```
 
 ## Repository Structure
 
 ```
 .
-├── .bash_profile        # Bash profile (Windows/Git Bash)
-├── .bashrc              # Bash configuration with oh-my-bash
-├── .zshrc               # Zsh configuration with Powerlevel10k
-├── .zshenv              # Zsh environment variables
-├── .zprofile            # Zsh profile
-├── .p10k.zsh            # Powerlevel10k theme configuration
-├── .common/             # Shared shell utilities
-│   ├── aliases.sh       # Shell aliases (eza, docker, git, etc.)
-│   └── agents-git-trees.sh  # Git worktree helper functions
-├── .claude/             # Claude Code configuration
-│   ├── settings.json    # Claude Code permissions and plugins
-│   └── skills/          # Custom Claude skills
-│       ├── interview/   # Interview skill for spec creation
-│       └── git-push-pr/ # Git workflow automation skill
-├── .codex/              # Codex CLI configuration
+├── .bash_profile           # Bash profile (Windows/Git Bash)
+├── .bashrc                 # Bash configuration with oh-my-bash
+├── .zshrc                  # Zsh configuration with Powerlevel10k
+├── .zshenv                 # Zsh environment variables
+├── .zprofile               # Zsh profile
+├── .p10k.zsh               # Powerlevel10k theme configuration
+├── .gitconfig               # Global git configuration (delta pager, zdiff3)
+├── .common/                # Shared shell utilities
+│   ├── aliases.sh          # Shell aliases (eza, docker, git, etc.)
+│   └── agents-git-trees.sh # Git worktree helper functions (ga/gd)
+├── .claude/                # Claude Code configuration
+│   ├── settings.json       # Permissions, plugins, MCP servers
+│   └── skills/             # Custom Claude skills
+│       ├── cargo-just/     # Smart Rust/just task runner
+│       ├── code-review/    # Code review for quality, bugs, style
+│       ├── git-push-pr/    # Git workflow automation
+│       ├── grill/          # Relentless idea interrogation
+│       ├── interview/      # In-depth spec creation
+│       ├── slidev/         # Web-based slide creation (symlink → .agents)
+│       └── test-writer/    # Test generation for existing code
+├── .agents/                # Shared agent skills (cross-tool)
+│   └── skills/
+│       ├── grill/          # Shared grill skill
+│       └── slidev/         # Shared Slidev skill
+├── .codex/                 # Codex CLI configuration
+│   ├── config.toml         # MCP servers (Playwright)
 │   └── rules/
 │       └── user-policy.rules  # Command execution approval rules
-├── sync-dotfiles.sh     # Dotfile synchronization utility
-├── justfile             # Task runner recipes
-└── README.md            # This file
+├── sync-dotfiles.sh        # Dotfile synchronization utility
+├── justfile                # Task runner recipes
+└── README.md
 ```
 
 ## Shell Configuration
 
 ### Bash (.bashrc)
 
-For Windows/Git Bash environments:
-
-- **oh-my-bash**: Terminal enhancement framework with "font" theme
-- **Tool aliases**: bat, just, rg, delta, zoxide
-- **Rust/Cargo**: Automatic environment setup
-- **Python/uv**: Local bin path management
-- **Go**: bin directory in PATH
-- **SSH**: Auto-load GitHub SSH keys
-- **NVM**: Node version manager support
-- **Terraform**: bin directory in PATH
+For Windows/Git Bash:
+- oh-my-bash framework with "font" theme
+- Shared utilities from `.common/`
+- Cargo/Rust tools: just, bat, rg, zoxide, delta
+- SSH key auto-loading, NVM, Terraform, Go, Python/uv
 
 ### Zsh (.zshrc, .zshenv, .zprofile)
 
-For macOS/Linux environments:
+For macOS/Linux:
+- Powerlevel10k prompt theme with instant prompt
+- Shared utilities from `.common/`
+- Same modern CLI tools as bash
 
-- **Powerlevel10k**: Feature-rich prompt theme
-- **Tool integration**: Modern CLI replacements loaded from cargo
-- Similar tool support as bash configuration
+### Git (.gitconfig)
+
+Global git configuration:
+- **delta** as pager for diffs
+- **zdiff3** merge conflict style
+- User: iancleary / iancleary@hey.com
 
 ## Shared Utilities
 
@@ -112,132 +110,88 @@ For macOS/Linux environments:
 
 Modern CLI replacements and shortcuts:
 
-- **eza**: Better ls (`l`, `ll`, `la`, `ls`, `left`)
-- **git**: Common operations (`g`, `gc`, `gf`, `gpoc`)
-- **pnpm/bun**: Package manager shortcuts
-- **docker**: Container management (`d`, `dc`, `di`)
-- **editors**: `n` for nvim
-- **just/cargo**: `j` for just, `c` for cargo
+| Category | Aliases |
+|----------|---------|
+| Files | `l`, `ll`, `la`, `ls` (eza), `left` (recent files) |
+| Git | `g`, `gc`, `gc!`, `gf`, `gpoc`, `cg` (cd to root) |
+| Editors | `n` (nvim) |
+| pnpm | `p`, `prd`, `prb`, `prs`, `pi`, `pa`, `pad`, `pap` |
+| bun | `b`, `brd`, `brb`, `brs`, `bi`, `ba`, `bad`, `bao`, `bap` |
+| Docker | `d`, `dc`, `di`, `dils`, `dirm`, `dcls`, `dcs` |
+| Rust/Just | `c` (cargo), `j` (just) |
+| Search | `hg` (history grep) |
 
 ### Git Worktree Helpers (.common/agents-git-trees.sh)
 
-Functions for managing git worktrees:
+- **`ga [branch-name]`**: Create worktree at `../{branch}--{repo-name}`, switch to it
+- **`gd`**: Delete current worktree and branch (interactive confirmation via gum)
 
-- **`ga [branch-name]`**: Create and switch to a new worktree
-  - Creates worktree at `../{branch-name}--{repo-name}`
-  - Automatically creates new branch and changes to worktree directory
+## AI Agent Integration
 
-- **`gd`**: Delete current worktree and branch
-  - Interactive confirmation with gum
-  - Safely removes worktree and associated branch
+### Claude Code (.claude/)
 
-## Sync Tool Usage
+**Skills** (invoke with `/skill-name`):
 
-### Commands
+| Skill | Description |
+|-------|-------------|
+| `cargo-just` | Smart task runner for Rust projects using cargo and just |
+| `code-review` | Review code changes for quality, bugs, and style |
+| `git-push-pr` | Automated git workflow: stage, commit, push, create/update PR |
+| `grill` | Relentlessly interrogate an idea before proposing a plan |
+| `interview` | In-depth interviewing to create detailed specifications |
+| `slidev` | Create web-based developer presentations with Markdown/Vue |
+| `test-writer` | Generate tests for existing code |
 
-```bash
-./sync-dotfiles.sh <command>
-```
+**MCP Servers**: Playwright (browser automation via `npx @playwright/mcp@latest`)
 
-Available commands:
+**Plugins**: rust-analyzer-lsp
 
-- **pull**: Copy dotfiles from home to repo (backup/save)
-- **push**: Copy dotfiles from repo to home (restore/install)
-- **status**: Show differences between home and repo
-- **diff**: Show detailed diff for a specific file
-- **list**: List all tracked dotfiles
-- **add**: Show how to add a file to sync list
-- **help**: Display help message
+### Codex CLI (.codex/)
+
+**MCP Servers**: Playwright (same as Claude Code)
+
+**Command policies** (`user-policy.rules`):
+- **allow**: Read-only commands (ls, cat, rg, find, git status/diff/log, cargo check/clippy, eza, bat, etc.)
+- **prompt**: Mutating operations (git add/commit/push, cargo build/test, npm/pnpm install, docker compose up, tailscale serve, etc.)
+- **forbidden**: Dangerous commands (sudo, rm -rf /, cargo publish, mkfs, shutdown, reboot)
+
+### Shared Agent Skills (.agents/)
+
+Skills in `.agents/skills/` are shared across tools. Claude Code's `slidev` skill symlinks to `.agents/skills/slidev`.
+
+## Sync Tool
 
 ### What Gets Synced
 
 **Common (all platforms):**
-- `.common/agents-git-trees.sh`
-- `.common/aliases.sh`
-- `.claude/settings.json`
+- `.common/aliases.sh`, `.common/agents-git-trees.sh`
+- `.claude/settings.json`, all Claude skills
 - `.codex/rules/user-policy.rules`
-- `.claude/skills/interview/SKILL.md`
-- `.claude/skills/git-push-pr/SKILL.md`
+- `.agents/skills/grill/`, `.agents/skills/slidev/` (dynamic discovery)
 
-**Windows/Git Bash:**
-- `.bashrc`
-- `.bash_profile`
+**Windows/Git Bash:** `.bashrc`, `.bash_profile`
 
-**macOS/Linux (Zsh):**
-- `.zshrc`
-- `.zshenv`
-- `.zprofile`
-- `.p10k.zsh`
+**macOS/Linux (Zsh):** `.zshrc`, `.zshenv`, `.zprofile`, `.p10k.zsh`
 
-### Safety Features
+### Dynamic Skill Syncing
 
-- Automatic backup before overwriting files (timestamped `.backup.*` files)
-- Diff checking before operations
-- Color-coded status output
-- Delta or diff for comparing files
+Skill directories listed in `SYNCED_SKILL_DIRS` are automatically discovered — adding/removing files in those directories updates the sync list without editing the script.
 
-## Claude Code Integration
+### Safety
 
-This repository includes custom Claude skills:
-
-- **interview**: In-depth interviewing to create detailed specifications
-- **git-push-pr**: Automated git workflow (stage, commit, push, PR create/update)
-
-Claude Code settings (`.claude/settings.json`) configure permissions and plugins across projects.
-
-## Codex CLI Integration
-
-Codex rules (`.codex/rules/user-policy.rules`) define command execution approval policies:
-- **allow**: Read-only commands (ls, cat, rg, git status/diff/log)
-- **prompt**: Mutating operations (git add/commit/push, package installs, shell wrappers)
-- **forbidden**: Dangerous commands (sudo, rm -rf /, mkfs, shutdown)
+- Automatic timestamped backups before overwriting
+- `cmp -s` diff detection to skip identical files
+- Auto-creates parent directories
+- Clear success/skip/error counts
 
 ## Dependencies
 
 ### Required
-
-- bash or zsh shell
-- git
+- bash or zsh, git
 
 ### Optional (for enhanced features)
-
-- [eza](https://github.com/eza-community/eza) - Modern ls replacement
-- [bat](https://github.com/sharkdp/bat) - Cat with syntax highlighting
-- [delta](https://github.com/dandavison/delta) - Better git diffs
-- [zoxide](https://github.com/ajeetdsouza/zoxide) - Smarter cd
-- [just](https://github.com/casey/just) - Command runner
-- [rg](https://github.com/BurntSushi/ripgrep) - Fast grep
-- [lazygit](https://github.com/jesseduffield/lazygit) - Terminal git UI
-- [gum](https://github.com/charmbracelet/gum) - Glamorous shell scripts
-- [nvim](https://neovim.io/) - Hyperextensible Vim-based text editor
-- [oh-my-bash](https://ohmybash.nntoan.com/) - Bash framework
-- [Powerlevel10k](https://github.com/romkatv/powerlevel10k) - Zsh theme
-
-## Contributing
-
-### Adding Files to Sync
-
-Edit `sync-dotfiles.sh` and add the file path to the appropriate array:
-
-```bash
-# For common files (all platforms)
-COMMON_DOTFILES+=(
-    "path/to/your/file"
-)
-
-# For OS-specific files
-DOTFILES+=(
-    "path/to/your/file"
-)
-```
-
-### Workflow
-
-1. Make changes to dotfiles in your home directory
-2. Run `./sync-dotfiles.sh pull` to backup to repo
-3. Commit and push changes
-4. On another machine, run `./sync-dotfiles.sh push` to restore
+- [eza](https://github.com/eza-community/eza), [bat](https://github.com/sharkdp/bat), [delta](https://github.com/dandavison/delta), [zoxide](https://github.com/ajeetdsouza/zoxide), [just](https://github.com/casey/just), [rg](https://github.com/BurntSushi/ripgrep), [lazygit](https://github.com/jesseduffield/lazygit), [gum](https://github.com/charmbracelet/gum), [nvim](https://neovim.io/), [oh-my-bash](https://ohmybash.nntoan.com/), [Powerlevel10k](https://github.com/romkatv/powerlevel10k)
 
 ## License
 
-Personal dotfiles - use at your own discretion.
+Personal dotfiles — use at your own discretion.
