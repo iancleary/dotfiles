@@ -36,62 +36,25 @@ COMMON_DOTFILES+=(
         ".claude/skills/interview/SKILL.md"
         ".claude/skills/git-push-pr/SKILL.md"
         ".claude/skills/grill/SKILL.md"
+        ".claude/skills/cargo-just/SKILL.md"
+        ".claude/skills/code-review/SKILL.md"
+        ".claude/skills/test-writer/SKILL.md"
         ".codex/rules/user-policy.rules"
         ".agents/skills/grill/SKILL.md"
-        ".agents/skills/slidev/SKILL.md"
-        ".agents/skills/slidev/references/animation-click-marker.md"
-        ".agents/skills/slidev/references/animation-drawing.md"
-        ".agents/skills/slidev/references/animation-rough-marker.md"
-        ".agents/skills/slidev/references/api-slide-hooks.md"
-        ".agents/skills/slidev/references/build-og-image.md"
-        ".agents/skills/slidev/references/build-pdf.md"
-        ".agents/skills/slidev/references/build-remote-assets.md"
-        ".agents/skills/slidev/references/build-seo-meta.md"
-        ".agents/skills/slidev/references/code-groups.md"
-        ".agents/skills/slidev/references/code-import-snippet.md"
-        ".agents/skills/slidev/references/code-line-highlighting.md"
-        ".agents/skills/slidev/references/code-line-numbers.md"
-        ".agents/skills/slidev/references/code-magic-move.md"
-        ".agents/skills/slidev/references/code-max-height.md"
-        ".agents/skills/slidev/references/code-twoslash.md"
-        ".agents/skills/slidev/references/core-animations.md"
-        ".agents/skills/slidev/references/core-cli.md"
-        ".agents/skills/slidev/references/core-components.md"
-        ".agents/skills/slidev/references/core-exporting.md"
-        ".agents/skills/slidev/references/core-frontmatter.md"
-        ".agents/skills/slidev/references/core-global-context.md"
-        ".agents/skills/slidev/references/core-headmatter.md"
-        ".agents/skills/slidev/references/core-hosting.md"
-        ".agents/skills/slidev/references/core-layouts.md"
-        ".agents/skills/slidev/references/core-syntax.md"
-        ".agents/skills/slidev/references/diagram-latex.md"
-        ".agents/skills/slidev/references/diagram-mermaid.md"
-        ".agents/skills/slidev/references/diagram-plantuml.md"
-        ".agents/skills/slidev/references/editor-monaco-run.md"
-        ".agents/skills/slidev/references/editor-monaco-write.md"
-        ".agents/skills/slidev/references/editor-monaco.md"
-        ".agents/skills/slidev/references/editor-prettier.md"
-        ".agents/skills/slidev/references/editor-side.md"
-        ".agents/skills/slidev/references/editor-vscode.md"
-        ".agents/skills/slidev/references/layout-canvas-size.md"
-        ".agents/skills/slidev/references/layout-draggable.md"
-        ".agents/skills/slidev/references/layout-global-layers.md"
-        ".agents/skills/slidev/references/layout-slots.md"
-        ".agents/skills/slidev/references/layout-transform.md"
-        ".agents/skills/slidev/references/layout-zoom.md"
-        ".agents/skills/slidev/references/presenter-notes-ruby.md"
-        ".agents/skills/slidev/references/presenter-recording.md"
-        ".agents/skills/slidev/references/presenter-remote.md"
-        ".agents/skills/slidev/references/presenter-timer.md"
-        ".agents/skills/slidev/references/style-direction.md"
-        ".agents/skills/slidev/references/style-icons.md"
-        ".agents/skills/slidev/references/style-scoped.md"
-        ".agents/skills/slidev/references/syntax-block-frontmatter.md"
-        ".agents/skills/slidev/references/syntax-frontmatter-merging.md"
-        ".agents/skills/slidev/references/syntax-importing-slides.md"
-        ".agents/skills/slidev/references/syntax-mdc.md"
-        ".agents/skills/slidev/references/tool-eject-theme.md"
     )
+
+# Skill directories with many files (synced dynamically)
+# Adding/removing files in these dirs automatically updates the sync list
+SYNCED_SKILL_DIRS=(
+    ".agents/skills/slidev"
+    ".claude/skills/slidev"
+)
+
+for skill_dir in "${SYNCED_SKILL_DIRS[@]}"; do
+    while IFS= read -r -d '' file; do
+        COMMON_DOTFILES+=("${file#$REPO_DIR/}")
+    done < <(find -L "$REPO_DIR/$skill_dir" -type f -print0 2>/dev/null | sort -z)
+done
 
 # Optional dotfiles (synced only if they exist)
 # OPTIONAL_DOTFILES+=(
@@ -438,15 +401,15 @@ cmd_list() {
         echo "  • $file"
     done
 
-    echo ""
-    echo "Optional files (synced if they exist):"
-    for file in "${OPTIONAL_DOTFILES[@]}"; do
-        if file_exists "$HOME_DIR/$file"; then
-            echo -e "  ${GREEN}•${NC} $file (exists)"
-        else
-            echo -e "  ${YELLOW}•${NC} $file (not found)"
-        fi
-    done
+    # echo ""
+    # echo "Optional files (synced if they exist):"
+    # for file in "${OPTIONAL_DOTFILES[@]}"; do
+    #     if file_exists "$HOME_DIR/$file"; then
+    #         echo -e "  ${GREEN}•${NC} $file (exists)"
+    #     else
+    #         echo -e "  ${YELLOW}•${NC} $file (not found)"
+    #     fi
+    # done
 }
 
 # Main entry point
