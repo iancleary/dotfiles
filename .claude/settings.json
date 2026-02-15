@@ -1,29 +1,4 @@
 {
-  "enabledPlugins": {
-    "rust-analyzer-lsp@claude-plugins-official": true
-  },
-  "mcpServers": {
-    "playwright": {
-      "command": "npx",
-      "args": [
-        "@playwright/mcp@latest"
-      ]
-    }
-  },
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/shaping-ripple.sh",
-            "timeout": 5
-          }
-        ]
-      }
-    ]
-  },
   "permissions": {
     "allow": [
       "Bash(git *)",
@@ -50,5 +25,35 @@
     "deny": [
       "Bash(cargo publish*)"
     ]
+  },
+  "enabledPlugins": {
+    "rust-analyzer-lsp@claude-plugins-official": true
+  },
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest"
+      ]
+    }
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/shaping-ripple.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  },
+  "effortLevel": "medium",
+  "attribution": {
+    "commit": "",
+    "pr": ""
   }
 }
