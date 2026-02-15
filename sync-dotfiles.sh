@@ -82,6 +82,7 @@ else
         ".zshenv"
         ".zprofile"
         ".p10k.zsh"
+        "Library/Application Support/com.mitchellh.ghostty/config"
     )
     
 fi
