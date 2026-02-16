@@ -63,11 +63,17 @@ cd ~/dotfiles
 │   ├── soul.md             # Voice, character, identity
 │   ├── settings.json       # Permissions, plugins, MCP servers
 │   └── skills/             # Custom Claude skills
+│       ├── brainstorming/  # Explore intent & design before implementation
+│       ├── breadboard-reflection/ # Find design smells in breadboards
+│       ├── breadboarding/  # Map workflows into affordance tables
 │       ├── cargo-just/     # Smart Rust/just task runner
 │       ├── code-review/    # Code review for quality, bugs, style
+│       ├── debugging/      # Systematic root cause analysis
 │       ├── git-push-pr/    # Git workflow automation
 │       ├── grill/          # Relentless idea interrogation
 │       ├── interview/      # In-depth spec creation
+│       ├── planning/       # Break specs into actionable tasks
+│       ├── shaping/        # Collaborative problem/solution shaping
 │       ├── slidev/         # Web-based slide creation (symlink → .agents)
 │       └── test-writer/    # Test generation for existing code
 ├── .agents/                # Shared agent skills (cross-tool)
@@ -152,11 +158,17 @@ These files live in both `.claude/` and `.codex/` (tailored to each tool's conte
 
 | Skill | Description |
 |-------|-------------|
+| `brainstorming` | Explore intent, requirements, and design before implementation |
+| `breadboard-reflection` | Find design smells in existing breadboards |
+| `breadboarding` | Map workflows into affordance tables (UI + code wiring) |
 | `cargo-just` | Smart task runner for Rust projects using cargo and just |
 | `code-review` | Review code changes for quality, bugs, and style |
+| `debugging` | Systematic root cause analysis before proposing fixes |
 | `git-push-pr` | Automated git workflow: stage, commit, push, create/update PR |
 | `grill` | Relentlessly interrogate an idea before proposing a plan |
 | `interview` | In-depth interviewing to create detailed specifications |
+| `planning` | Break specs/requirements into clear, actionable tasks |
+| `shaping` | Collaborative problem definition and solution shaping |
 | `slidev` | Create web-based developer presentations with Markdown/Vue |
 | `test-writer` | Generate tests for existing code |
 
