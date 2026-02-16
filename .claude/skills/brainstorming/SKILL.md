@@ -50,9 +50,21 @@ For significant features, save the design:
 - Or as `notes/<topic>.md` in the repo
 - Skip this for small/medium features — the conversation is the record
 
-### 6. Transition to Implementation
+### 6. Edge Case Gut-Check
 
-Once approved, either:
+Before moving to implementation, ask: **"What are the edge cases I haven't considered?"**
+
+Spend a moment actively looking for:
+- Inputs you didn't think about (empty, huge, malformed, concurrent)
+- Failure modes you assumed away
+- Interactions with existing code you didn't trace
+- Assumptions that feel obvious but aren't proven
+
+Surface anything you find. This is the last chance to catch design gaps cheaply.
+
+### 7. Transition to Implementation
+
+Once approved and edge cases addressed, either:
 - Start implementing directly (for focused work)
 - Create a plan with task breakdown (for larger work — see `planning` skill)
 - Spawn sub-agents with clear task descriptions (for parallel work)

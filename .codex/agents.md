@@ -58,11 +58,11 @@ If a `justfile` exists, prefer `just <task>` over raw cargo. Run `just --list` t
 
 ### Brainstorming
 
-Before non-trivial work: explore context (files, tests, commits) → ask clarifying questions one at a time → propose 2-3 approaches with trade-offs → present design for approval → get sign-off before coding. Apply YAGNI ruthlessly.
+Before non-trivial work: explore context (files, tests, commits) → ask clarifying questions one at a time → propose 2-3 approaches with trade-offs → present design for approval → before coding, ask "What are the edge cases I haven't considered?" → get sign-off before coding. Apply YAGNI ruthlessly.
 
 ### Planning
 
-For multi-file features: break into tasks with exact file paths, what to create/modify, verification steps, and commit messages. Target 5-15 min per task. Every task includes tests. Save plan to GitHub issue or `notes/<feature>-plan.md`.
+For multi-file features: break into tasks with exact file paths, what to create/modify, verification steps, and commit messages. Target 5-15 min per task. Every task includes tests. Save plan to GitHub issue or `notes/<feature>-plan.md`. Before executing, ask: "What are the edge cases I haven't considered?"
 
 ### Code Review
 

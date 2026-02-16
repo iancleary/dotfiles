@@ -80,9 +80,21 @@ Save to: GitHub issue body, or `notes/<feature>-plan.md` in the repo.
 - Include `cargo clippy` as a verification step on every task
 - For new public API: include doc comments in the plan
 
+## Edge Case Gut-Check
+
+Before executing, review the plan and ask: **"What are the edge cases I haven't considered?"**
+
+Look for:
+- Task boundaries that assume happy-path ordering
+- Missing error handling or rollback steps
+- Interactions between tasks that could conflict
+- Assumptions about existing code state that aren't verified in any task
+
+Surface findings and adjust the plan before starting execution.
+
 ## Execution
 
-After saving the plan, offer:
+After the edge case review, offer:
 
 1. **Sequential** — work through tasks in order, commit after each
 2. **Sub-agents** — spawn one sub-agent per task (or group of related tasks)
