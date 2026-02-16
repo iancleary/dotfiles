@@ -69,6 +69,7 @@ cd ~/dotfiles
 │       ├── cargo-just/     # Smart Rust/just task runner
 │       ├── code-review/    # Code review for quality, bugs, style
 │       ├── debugging/      # Systematic root cause analysis
+│       ├── edge-cases/    # Surface edge cases before implementation
 │       ├── git-push-pr/    # Git workflow automation
 │       ├── grill/          # Relentless idea interrogation
 │       ├── interview/      # In-depth spec creation
@@ -164,6 +165,7 @@ These files live in both `.claude/` and `.codex/` (tailored to each tool's conte
 | `cargo-just` | Smart task runner for Rust projects using cargo and just |
 | `code-review` | Review code changes for quality, bugs, and style |
 | `debugging` | Systematic root cause analysis before proposing fixes |
+| `edge-cases` | Surface edge cases, blind spots, and untested assumptions |
 | `git-push-pr` | Automated git workflow: stage, commit, push, create/update PR |
 | `grill` | Relentlessly interrogate an idea before proposing a plan |
 | `interview` | In-depth interviewing to create detailed specifications |

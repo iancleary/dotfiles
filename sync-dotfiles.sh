@@ -47,6 +47,7 @@ COMMON_DOTFILES+=(
         ".claude/skills/breadboard-reflection/SKILL.md"
         ".claude/skills/planning/SKILL.md"
         ".claude/skills/debugging/SKILL.md"
+        ".claude/skills/edge-cases/SKILL.md"
         ".claude/skills/shaping/SKILL.md"
         ".codex/agents.md"
         ".codex/principles.md"
