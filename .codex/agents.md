@@ -72,6 +72,10 @@ Get the diff (`gh pr diff` or `git diff main...HEAD`). Check for: bugs, style co
 
 Read target code → generate tests covering happy path, edge cases, error cases. Rust: `#[cfg(test)] mod tests {}` at bottom or `tests/` for integration. Names describe behavior: `test_empty_input_returns_none`. Run `cargo test` to verify.
 
+### Edge Cases
+
+Before implementation, run through: empty/malformed/huge inputs, off-by-one and overflow boundaries, failure modes (timeouts, permission denied, partial state), race conditions and ordering, side effects on existing code. In Rust: `unwrap()` on fallible values, ownership surprises, `unsafe` invariants, serialization round-trips. Present findings as a table (edge case / impact / mitigation). If nothing surfaces, say so and move on.
+
 ### Grill
 
 When asked to grill an idea: interrogate relentlessly. Surface every assumption, blind spot, edge case, and constraint. Challenge vague language. Push back on the problem itself. Only propose a plan after all unknowns are surfaced.
