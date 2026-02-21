@@ -40,7 +40,6 @@ Run Codex CLI in non-interactive mode to review the plan:
 
 ```bash
 codex exec \
-  -m gpt-5.3-codex \
   -s read-only \
   -o /tmp/codex-review-${REVIEW_ID}.md \
   "Review the implementation plan in /tmp/claude-plan-${REVIEW_ID}.md. Focus on:
@@ -58,7 +57,7 @@ If changes are needed, end with exactly: VERDICT: REVISE"
 Capture the Codex session ID from the output line that says `session id: <uuid>`. Store this as `CODEX_SESSION_ID`. You MUST use this exact ID to resume in subsequent rounds (do NOT use `--last`, which would grab the wrong session if multiple reviews are running concurrently).
 
 Notes:
-- Use `-m gpt-5.3-codex` as the default model. If the user specifies a different model (e.g., `/codex-review o4-mini`), use that instead.
+- Omit `-m` to use the default model from `~/.codex/config.toml`. If the user specifies a different model (e.g., `/codex-review o4-mini`), add `-m <model>` to the command.
 - Use `-s read-only` so Codex can read the codebase for context but cannot modify anything.
 - Use `-o` to capture the output to a file for reliable reading.
 
@@ -162,7 +161,7 @@ Max 5 rounds. Each round preserves Codex's conversation context via session resu
 ## Rules
 
 - Claude actively revises the plan based on Codex feedback between rounds — this is NOT just passing messages, Claude should make real improvements
-- Default model is `gpt-5.3-codex`. Accept model override from user arguments (e.g., `/codex-review o4-mini`)
+- Default model: use whatever is configured in `~/.codex/config.toml` (currently `gpt-5.3-codex`). Accept model override from user arguments (e.g., `/codex-review o4-mini`). If specifying explicitly, use `-m <model>`.
 - Always use `read-only` sandbox mode — Codex should never write files
 - Max 5 review rounds to prevent infinite loops
 - Show the user each round's feedback and revisions so they can follow along

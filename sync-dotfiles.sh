@@ -41,6 +41,7 @@ COMMON_DOTFILES+=(
         ".claude/skills/grill/SKILL.md"
         ".claude/skills/cargo-just/SKILL.md"
         ".claude/skills/code-review/SKILL.md"
+        ".claude/skills/codex-review/SKILL.md"
         ".claude/skills/test-writer/SKILL.md"
         ".claude/skills/brainstorming/SKILL.md"
         ".claude/skills/breadboarding/SKILL.md"
