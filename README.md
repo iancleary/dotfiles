@@ -68,6 +68,7 @@ cd ~/dotfiles
 │       ├── breadboarding/  # Map workflows into affordance tables
 │       ├── cargo-just/     # Smart Rust/just task runner
 │       ├── code-review/    # Code review for quality, bugs, style
+│       ├── codex-review/   # Iterative plan review via Claude + Codex loop
 │       ├── debugging/      # Systematic root cause analysis
 │       ├── git-push-pr/    # Git workflow automation
 │       ├── grill/          # Relentless idea interrogation
