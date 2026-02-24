@@ -591,3 +591,46 @@ shaping: true
 - C2-C fails R1: in-memory state lost on refresh
 - C2-B satisfies R2 but requires custom popstate handler
 ```
+
+## References
+
+### Shaping Skill Origin
+
+This skill is by [@rjs (Ryan Singer)](https://github.com/rjs/shaping-skill). As [@nurijanian](https://x.com/nurijanian/status/2026266368837087603) puts it: "the /shaping skill by @rjs is so good, I feel like I acquire a few extra IQ points every time I use it."
+
+### Framing vs Shaping (Felt Presence)
+
+Framing and shaping are complementary but distinct activities. This distinction comes from Felt Presence (© 2021-2022) and was shared by [@nurijanian](https://x.com/nurijanian/status/2026266368837087603).
+
+**Framing** narrows down the problem:
+- What problem are we trying to solve?
+- What slice of the problem are we addressing now?
+- What will change when we're done and how will we know?
+
+**Shaping** explores multiple paths to solve it:
+- What technical and design options do we have?
+- What decisions need to be made before we can start the project?
+- What are all the moving parts we need to consider?
+
+**When we don't frame...**
+- We ship things that don't measurably impact the business
+- We get frustrated because we don't agree or know what problem we're trying to solve
+
+**When we don't shape...**
+- We spend more time than we intended solving a problem
+- Different people have different definitions of the same thing
+- We are forced to make trade-offs we didn't anticipate
+
+This maps to this skill's document hierarchy: the **Frame** (Source, Problem, Outcome) is the framing step; the **Shaping doc** (Requirements, Shapes, Fit Checks) is the shaping step.
+
+### Fit Check in Practice (nurijanian)
+
+Real-world example of a fit check from [@nurijanian](https://x.com/nurijanian/status/2022417407126704133) — a browser extension feature for grouping saved tabs by day:
+
+- 11 requirements (R0–R10), each with status (Core goal / Must-have)
+- 3 shapes (A, B, C) evaluated with ✅/❌
+- Shape A fails R10 (migration) — no path for existing lists with corrupt/missing timestamps
+- B and C pass all requirements
+- Recommendation: Shape C — simpler migration (add `day` property, one-liner), less invasive storage, easier to debug, preserves list identity, simpler append logic
+
+This demonstrates the fit check as a decision tool: binary pass/fail per shape, failures explained in notes, and a clear recommendation with rationale for why C over B.
