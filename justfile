@@ -17,3 +17,16 @@ push:
 # Show diff between home and repo
 status:
     ./sync-dotfiles.sh status
+
+# Install all tools (core + dev)
+install *ARGS:
+    ./install.sh {{ARGS}}
+
+# Install cargo-based tools (slower, optional)
+install-cargo *ARGS:
+    ./install-cargo-tools.sh {{ARGS}}
+
+# Install everything (tools + cargo extras)
+install-all *ARGS:
+    ./install.sh {{ARGS}}
+    ./install-cargo-tools.sh {{ARGS}}
