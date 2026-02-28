@@ -1,0 +1,23 @@
+{
+  "$schema": "https://raw.githubusercontent.com/ScoopInstaller/Scoop/master/schema.json",
+  "_comment": "Windows package list — Usage: scoop import Scoopfile.json",
+  "buckets": [
+    { "Name": "main" },
+    { "Name": "extras" }
+  ],
+  "apps": [
+    { "Name": "eza",      "Source": "main" },
+    { "Name": "bat",      "Source": "main" },
+    { "Name": "delta",    "Source": "main" },
+    { "Name": "zoxide",   "Source": "main" },
+    { "Name": "just",     "Source": "main" },
+    { "Name": "ripgrep",  "Source": "main" },
+    { "Name": "lazygit",  "Source": "extras" },
+    { "Name": "gum",      "Source": "main" },
+    { "Name": "fd",       "Source": "main" },
+    { "Name": "jq",       "Source": "main" },
+    { "Name": "gh",       "Source": "main" },
+    { "Name": "neovim",   "Source": "main" },
+    { "Name": "shellcheck", "Source": "main" }
+  ]
+}
