@@ -1,0 +1,18 @@
+# Cargo tools — installed via: cargo install <name>
+# One tool per line. Comments and blank lines ignored.
+
+# CLI replacements
+bat
+eza
+git-delta
+ripgrep
+fd-find
+zoxide
+just
+
+# Dev tools
+cargo-watch
+cargo-mutants
+cargo-semver-checks
+cargo-nextest
+cargo-edit

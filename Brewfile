@@ -1,39 +1,28 @@
-# Brewfile — Declarative package list for macOS
+# Brewfile — Minimal macOS packages (non-Rust tools only)
 # Usage: brew bundle [--file=Brewfile]
-# Docs: https://github.com/Homebrew/homebrew-bundle
+# Rust CLI tools live in cargo-tools.txt (installed via cargo install)
 
 # ──────────────────────────────────────────────
-# Core CLI Tools
+# System tools (no cargo equivalent)
 # ──────────────────────────────────────────────
-brew "eza"          # Modern ls replacement
-brew "bat"          # Cat with syntax highlighting
-brew "git-delta"    # Beautiful git diffs
-brew "zoxide"       # Smart cd (z)
-brew "just"         # Task runner
-brew "ripgrep"      # Fast grep (rg)
-brew "lazygit"      # Terminal git UI
-brew "gum"          # Interactive shell scripts
-brew "fd"           # Fast find
 brew "jq"           # JSON processor
-
-# ──────────────────────────────────────────────
-# Development Tools
-# ──────────────────────────────────────────────
 brew "gh"           # GitHub CLI
+brew "gum"          # Interactive shell scripts
+brew "lazygit"      # Terminal git UI (Go)
 brew "neovim"       # Editor
 brew "shellcheck"   # Shell script linter
-brew "watchexec"    # File watcher
 
 # ──────────────────────────────────────────────
 # Casks (GUI Applications)
 # ──────────────────────────────────────────────
-# cask "ghostty"    # Terminal emulator (uncomment if available in Homebrew)
+# cask "ghostty"    # Terminal emulator (uncomment if available)
 
 # ──────────────────────────────────────────────
-# Not in Homebrew — installed separately:
-#   rustup    → curl https://sh.rustup.rs
-#   nvm       → curl https://raw.githubusercontent.com/nvm-sh/nvm/...
-#   uv        → curl https://astral.sh/uv/install.sh
-#   oh-my-zsh → sh -c "$(curl ...ohmyz.sh/install.sh)"
-#   p10k      → git clone into $ZSH_CUSTOM/themes/
+# Installed via their own ecosystems:
+#   Rust CLI tools → cargo-tools.txt (bat, eza, delta, rg, fd, zoxide, just)
+#   rustup         → curl https://sh.rustup.rs
+#   nvm            → curl https://raw.githubusercontent.com/nvm-sh/nvm/...
+#   uv             → curl https://astral.sh/uv/install.sh
+#   oh-my-zsh      → sh -c "$(curl ...ohmyz.sh/install.sh)"
+#   p10k           → git clone into $ZSH_CUSTOM/themes/
 # ──────────────────────────────────────────────
