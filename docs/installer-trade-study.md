@@ -15,7 +15,8 @@ install.sh
 ├── detect OS / arch
 ├── install package manager (brew / scoop)
 ├── install tools via package manager
-├── install Rust via rustup.rs
+├── install Rust via rustup.rs + cargo install --locked
+├── install Go via go.dev tarball/brew + go install
 ├── install Node via nvm
 ├── install uv via astral.sh
 └── summary

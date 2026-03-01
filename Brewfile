@@ -7,8 +7,6 @@
 # ──────────────────────────────────────────────
 brew "jq"           # JSON processor
 brew "gh"           # GitHub CLI
-brew "gum"          # Interactive shell scripts
-brew "lazygit"      # Terminal git UI (Go)
 brew "neovim"       # Editor
 brew "shellcheck"   # Shell script linter
 

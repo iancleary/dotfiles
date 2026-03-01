@@ -10,6 +10,7 @@
 # Options:
 #   --dry-run    Show what would be installed without installing
 #   --skip-rust  Skip Rust toolchain + cargo tools
+#   --skip-go    Skip Go toolchain + go install tools
 #   --skip-node  Skip Node.js/nvm installation
 #   --skip-sync  Skip dotfiles clone and sync
 
@@ -19,6 +20,7 @@ set -euo pipefail
 
 DRY_RUN=false
 SKIP_RUST=false
+SKIP_GO=false
 SKIP_NODE=false
 SKIP_SYNC=false
 
@@ -26,6 +28,7 @@ for arg in "$@"; do
   case "$arg" in
     --dry-run)    DRY_RUN=true ;;
     --skip-rust)  SKIP_RUST=true ;;
+    --skip-go)    SKIP_GO=true ;;
     --skip-node)  SKIP_NODE=true ;;
     --skip-sync)  SKIP_SYNC=true ;;
     --help|-h)
@@ -185,9 +188,11 @@ install_system_tools() {
     curl -fsSL "https://raw.githubusercontent.com/iancleary/dotfiles/main/Brewfile" -o "$tmpdir/Brewfile"
     curl -fsSL "https://raw.githubusercontent.com/iancleary/dotfiles/main/Scoopfile.json" -o "$tmpdir/Scoopfile.json"
     curl -fsSL "https://raw.githubusercontent.com/iancleary/dotfiles/main/cargo-tools.txt" -o "$tmpdir/cargo-tools.txt"
+    curl -fsSL "https://raw.githubusercontent.com/iancleary/dotfiles/main/go-tools.txt" -o "$tmpdir/go-tools.txt"
     brewfile="$tmpdir/Brewfile"
     scoopfile="$tmpdir/Scoopfile.json"
     CARGO_TOOLS_FILE="$tmpdir/cargo-tools.txt"
+    GO_TOOLS_FILE="$tmpdir/go-tools.txt"
   fi
 
   case "$OS" in
@@ -282,16 +287,86 @@ install_rust() {
         echo -e " ${DIM}(dry-run)${RESET}"
         (( COUNT_SKIPPED++ )) || true
       else
-        cargo install "$tool" &>/dev/null && record_installed || record_failed "$tool" "cargo install failed"
+        cargo install --locked "$tool" &>/dev/null && record_installed || record_failed "$tool" "cargo install failed"
       fi
     fi
   done < <(read_tool_list "$cargo_file")
 }
 
-# ─── Phase 4: Node.js ─────────────────────────────────────────────────────────
+# ─── Phase 4: Go + Go Tools ───────────────────────────────────────────────────
+
+install_go() {
+  log_section "Phase 4: Go Toolchain + Go Tools"
+
+  if $SKIP_GO; then
+    record_skipped "Go (--skip-go)"
+    return
+  fi
+
+  # Install Go toolchain
+  if has go; then
+    record_present "Go $(go version 2>/dev/null | awk '{print $3}' | sed 's/go//')"
+  else
+    log_install "Go"
+    if $DRY_RUN; then
+      echo -e " ${DIM}(dry-run)${RESET}"
+      (( COUNT_SKIPPED++ )) || true
+    else
+      case "$OS" in
+        macos)
+          brew install go &>/dev/null && record_installed || record_failed "Go" "brew install failed"
+          ;;
+        linux)
+          # Download latest Go from official tarball
+          local go_version
+          go_version=$(curl -fsSL "https://go.dev/VERSION?m=text" | head -1)
+          local go_arch="amd64"
+          [[ "$ARCH" == "arm64" ]] && go_arch="arm64"
+          curl -fsSL "https://go.dev/dl/${go_version}.linux-${go_arch}.tar.gz" | sudo tar -C /usr/local -xzf - && record_installed || record_failed "Go" "tarball install failed"
+          export PATH="/usr/local/go/bin:$PATH"
+          ;;
+        windows)
+          scoop install go &>/dev/null && record_installed || record_failed "Go" "scoop install failed"
+          ;;
+      esac
+    fi
+  fi
+
+  # Ensure GOPATH/bin is on PATH for this session
+  export PATH="${GOPATH:-$HOME/go}/bin:$PATH"
+
+  # Go tools from declarative list
+  local go_file="${GO_TOOLS_FILE:-${SCRIPT_DIR:-}/go-tools.txt}"
+  if [[ ! -f "$go_file" ]]; then
+    echo -e "  ${YELLOW}⚠${RESET} go-tools.txt not found, skipping go tools"
+    return
+  fi
+
+  echo -e "  ${DIM}Using go-tools.txt: $go_file${RESET}"
+
+  while IFS= read -r module; do
+    # Extract binary name from module path (last path segment, strip @version)
+    local cmd
+    cmd=$(basename "${module%%@*}")
+
+    if has "$cmd"; then
+      record_present "$cmd"
+    else
+      log_install "$cmd"
+      if $DRY_RUN; then
+        echo -e " ${DIM}(dry-run)${RESET}"
+        (( COUNT_SKIPPED++ )) || true
+      else
+        go install "$module" &>/dev/null && record_installed || record_failed "$cmd" "go install failed"
+      fi
+    fi
+  done < <(read_tool_list "$go_file")
+}
+
+# ─── Phase 5: Node.js ─────────────────────────────────────────────────────────
 
 install_node() {
-  log_section "Phase 4: Node.js (via nvm)"
+  log_section "Phase 5: Node.js (via nvm)"
 
   if $SKIP_NODE; then
     record_skipped "Node.js (--skip-node)"
@@ -318,10 +393,10 @@ install_node() {
   fi
 }
 
-# ─── Phase 5: Python (uv) ─────────────────────────────────────────────────────
+# ─── Phase 6: Python (uv) ─────────────────────────────────────────────────────
 
 install_python() {
-  log_section "Phase 5: Python (via uv)"
+  log_section "Phase 6: Python (via uv)"
 
   if has uv; then
     record_present "uv $(uv --version 2>/dev/null | awk '{print $2}')"
@@ -331,10 +406,10 @@ install_python() {
   fi
 }
 
-# ─── Phase 6: Shell Enhancements ──────────────────────────────────────────────
+# ─── Phase 7: Shell Enhancements ──────────────────────────────────────────────
 
 install_shell() {
-  log_section "Phase 6: Shell Enhancements"
+  log_section "Phase 7: Shell Enhancements"
 
   case "$OS" in
     macos|linux)
@@ -367,10 +442,10 @@ install_shell() {
   esac
 }
 
-# ─── Phase 7: Dotfiles Clone & Sync ───────────────────────────────────────────
+# ─── Phase 8: Dotfiles Clone & Sync ───────────────────────────────────────────
 
 install_dotfiles() {
-  log_section "Phase 7: Dotfiles Clone & Sync"
+  log_section "Phase 8: Dotfiles Clone & Sync"
 
   if $SKIP_SYNC; then
     record_skipped "Dotfiles sync (--skip-sync)"
@@ -445,12 +520,14 @@ print_summary() {
 # Resolve script dir (empty if running from curl pipe)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}" 2>/dev/null)" 2>/dev/null && pwd)" || SCRIPT_DIR=""
 CARGO_TOOLS_FILE=""
+GO_TOOLS_FILE=""
 
 detect_platform
 print_banner
 install_package_manager
 install_system_tools
 install_rust
+install_go
 install_node
 install_python
 install_shell
