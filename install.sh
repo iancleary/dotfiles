@@ -250,8 +250,32 @@ install_rust() {
   if has rustc; then
     record_present "Rust $(rustc --version 2>/dev/null | awk '{print $2}')"
   else
-    log_install "Rust (via rustup)"
-    run_or_dry bash -c "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y" && record_installed || record_failed "rustup" "install failed"
+    case "$OS" in
+      macos|linux)
+        log_install "Rust (via rustup)"
+        run_or_dry bash -c "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y" && record_installed || record_failed "rustup" "install failed"
+        ;;
+      windows)
+        # Windows requires Visual Studio C++ Build Tools for the MSVC linker.
+        # rustup-init.exe is the official Windows installer (not the curl | sh script).
+        if ! has cl && ! has link; then
+          echo -e "  ${YELLOW}⚠${RESET}  Visual Studio C++ Build Tools not detected."
+          echo -e "  ${DIM}  Install from: https://visualstudio.microsoft.com/visual-cpp-build-tools/${RESET}"
+          echo -e "  ${DIM}  Select 'Desktop development with C++' workload.${RESET}"
+          echo -e "  ${DIM}  Alternatively, use rustup's GNU toolchain: rustup default stable-x86_64-pc-windows-gnu${RESET}"
+        fi
+        log_install "Rust (via rustup-init.exe)"
+        if $DRY_RUN; then
+          echo -e " ${DIM}(dry-run)${RESET}"
+          (( COUNT_SKIPPED++ )) || true
+        else
+          local tmpdir
+          tmpdir="$(mktemp -d)"
+          curl -fsSL "https://win.rustup.rs/x86_64" -o "$tmpdir/rustup-init.exe"
+          "$tmpdir/rustup-init.exe" -y --default-toolchain stable 2>/dev/null && record_installed || record_failed "rustup" "rustup-init.exe failed"
+        fi
+        ;;
+    esac
     # Source cargo env for this session
     [[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
   fi
