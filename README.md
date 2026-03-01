@@ -2,6 +2,24 @@
 
 Cross-platform shell configuration files for bash (Windows/Git Bash) and zsh (macOS/Linux).
 
+## Automated Installation
+
+Install all tools with one command:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/iancleary/dotfiles/main/install.sh | bash
+```
+
+Or clone first:
+
+```bash
+git clone https://github.com/iancleary/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+./install.sh
+```
+
+Options: `--dry-run`, `--minimal`, `--skip-rust`, `--skip-node`
+
 ## Overview
 
 This repository manages dotfiles for multiple operating systems with a sync utility that handles bidirectional synchronization between your home directory and this repository.

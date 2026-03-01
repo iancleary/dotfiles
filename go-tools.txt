@@ -1,0 +1,5 @@
+# Go tools — installed via: go install <module>@latest
+# One tool per line. Comments and blank lines ignored.
+
+github.com/charmbracelet/gum@latest
+github.com/jesseduffield/lazygit@latest
