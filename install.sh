@@ -399,22 +399,54 @@ install_node() {
 
   if has node; then
     record_present "Node.js $(node --version 2>/dev/null)"
-  else
-    # Install nvm first
-    if [[ ! -d "$HOME/.nvm" ]]; then
-      log_install "nvm"
-      run_or_dry bash -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash' && record_installed || record_failed "nvm" "install failed"
-    else
-      record_present "nvm"
-    fi
-
-    # Install latest LTS
-    if ! $DRY_RUN && [[ -s "$HOME/.nvm/nvm.sh" ]]; then
-      source "$HOME/.nvm/nvm.sh"
-      log_install "Node.js LTS"
-      nvm install --lts &>/dev/null && record_installed || record_failed "Node.js" "nvm install failed"
-    fi
+    return
   fi
+
+  case "$OS" in
+    macos|linux)
+      # nvm-sh: https://github.com/nvm-sh/nvm
+      if [[ ! -d "$HOME/.nvm" ]]; then
+        log_install "nvm"
+        run_or_dry bash -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash' && record_installed || record_failed "nvm" "install failed"
+      else
+        record_present "nvm"
+      fi
+
+      # Install latest LTS
+      if ! $DRY_RUN && [[ -s "$HOME/.nvm/nvm.sh" ]]; then
+        source "$HOME/.nvm/nvm.sh"
+        log_install "Node.js LTS"
+        nvm install --lts &>/dev/null && record_installed || record_failed "Node.js" "nvm install failed"
+      fi
+      ;;
+    windows)
+      # nvm-windows: https://github.com/coreybutler/nvm-windows
+      if has nvm; then
+        record_present "nvm-windows"
+      else
+        log_install "nvm-windows"
+        if $DRY_RUN; then
+          echo -e " ${DIM}(dry-run)${RESET}"
+          (( COUNT_SKIPPED++ )) || true
+        else
+          local tmpdir
+          tmpdir="$(mktemp -d)"
+          local nvm_win_version="1.2.2"
+          curl -fsSL "https://github.com/coreybutler/nvm-windows/releases/download/${nvm_win_version}/nvm-noinstall.zip" -o "$tmpdir/nvm.zip"
+          mkdir -p "$HOME/AppData/Roaming/nvm"
+          unzip -qo "$tmpdir/nvm.zip" -d "$HOME/AppData/Roaming/nvm" && record_installed || record_failed "nvm-windows" "install failed"
+          echo -e "  ${YELLOW}⚠${RESET}  Add to PATH: ${DIM}%APPDATA%\\nvm${RESET} and ${DIM}%APPDATA%\\nvm\\nodejs${RESET}"
+          echo -e "  ${DIM}  Or use the full installer: https://github.com/coreybutler/nvm-windows/releases${RESET}"
+        fi
+      fi
+
+      # Install latest LTS
+      if ! $DRY_RUN && has nvm; then
+        log_install "Node.js LTS"
+        nvm install lts &>/dev/null && nvm use lts &>/dev/null && record_installed || record_failed "Node.js" "nvm install failed"
+      fi
+      ;;
+  esac
 }
 
 # ─── Phase 6: Python (uv) ─────────────────────────────────────────────────────
