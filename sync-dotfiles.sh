@@ -54,12 +54,13 @@ COMMON_DOTFILES+=(
         ".codex/principles.md"
         ".codex/soul.md"
         ".codex/rules/user-policy.rules"
-        ".agents/skills/grill/SKILL.md"
     )
 
 # Skill directories with many files (synced dynamically)
 # Adding/removing files in these dirs automatically updates the sync list
 SYNCED_SKILL_DIRS=(
+    ".agents/skills/git-push-pr"
+    ".agents/skills/grill"
     ".agents/skills/slidev"
     ".claude/skills/slidev"
 )
