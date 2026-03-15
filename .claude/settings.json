@@ -1,4 +1,8 @@
 {
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
   "permissions": {
     "allow": [
       "Bash(git *)",
@@ -20,22 +24,15 @@
       "Bash(find *)",
       "Bash(sed *)",
       "Bash(awk *)",
-      "Bash(gh *)"
+      "Bash(gh *)",
+      "Bash(just:*)",
+      "WebSearch",
+      "WebFetch(domain:github.com)"
     ],
     "deny": [
       "Bash(cargo publish*)"
-    ]
-  },
-  "enabledPlugins": {
-    "rust-analyzer-lsp@claude-plugins-official": true
-  },
-  "mcpServers": {
-    "playwright": {
-      "command": "npx",
-      "args": [
-        "@playwright/mcp@latest"
-      ]
-    }
+    ],
+    "defaultMode": "default"
   },
   "hooks": {
     "PostToolUse": [
@@ -51,9 +48,17 @@
       }
     ]
   },
-  "effortLevel": "medium",
-  "attribution": {
-    "commit": "",
-    "pr": ""
+  "enabledPlugins": {
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true
+  },
+  "effortLevel": "high",
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest"
+      ]
+    }
   }
 }
