@@ -350,15 +350,36 @@ If a Codex session doesn't finish:
 
 ---
 
+## Alternative Engines: Cursor vs Codex
+
+Ralph-Codex currently uses Codex CLI, but **Cursor** is worth exploring as an alternative:
+
+| Aspect | Codex CLI | Cursor |
+|--------|-----------|--------|
+| Interface | Terminal/CLI | IDE (VS Code) |
+| Autonomy | Single-pass | Agent-based |
+| Codebase understanding | Manual context | Built-in |
+| Interactive | ❌ No | ✅ Yes |
+| Automation-friendly | ✅ Yes | ⚠️ Depends on CLI/API |
+
+**Recommendation**: Keep Codex CLI for ralph-codex loops (automation), use Cursor for interactive development.
+
+**Full analysis**: See `../../docs/cursor-ai-workflow-integration.md` for detailed comparison, integration patterns, and roadmap.
+
+---
+
 ## References
 
 - **Ralph** (Ryan Carson): https://github.com/snarktank/ralph
 - **Ralph Article**: https://x.com/ryancarson/status/2008548371712135632
 - **Geoffrey Huntley**: https://ghuntley.com/ralph/
 - **Codex**: https://openai.com/research/codex
+- **Cursor**: https://cursor.com
+- **Workflow Integration Guide**: `../../docs/cursor-ai-workflow-integration.md`
 
 ---
 
 **Status**: Prototype (manual Codex invocation)  
 **Next**: Automated integration with OpenClaw's sessions_spawn  
+**Cursor Integration**: In progress (see docs/cursor-ai-workflow-integration.md)  
 **Last Updated**: 2026-03-17
