@@ -43,6 +43,36 @@ just help                   # Task runner recipes
 # See docs/agent-integration.md → "Adding a New Skill"
 ```
 
+## gstack
+
+**gstack** is Garry Tan's (YC President & CEO) open-source software factory.
+
+13 specialist skills that work as a complete autonomous team: CEO, Eng Manager, Designer, Staff Engineer, QA Lead, Release Engineer, and more.
+
+Use `/browse` from gstack for all web browsing. Never use `mcp__claude-in-chrome__*` tools.
+
+**Available skills**:
+- `/plan-ceo-review` — Rethink the product, find 10-star features
+- `/plan-eng-review` — Lock architecture, draw data flows
+- `/plan-design-review` — 80-item design audit + AI slop detection
+- `/design-consultation` — Build complete design systems
+- `/design-review` — Audit + fix design issues with atomic commits
+- `/review` — Find production bugs, auto-fix obvious issues
+- `/browse` — Agent with real eyes (Chromium browser)
+- `/qa` — End-to-end testing in real browser, find & fix bugs
+- `/qa-only` — Pure bug report without code changes
+- `/setup-browser-cookies` — Import cookies for authenticated testing
+- `/ship` — Atomic releases (sync, test, push, open PR)
+- `/document-release` — Keep all docs in sync with code
+- `/retro` — Weekly metrics, shipping streaks, test health
+- `/gstack-upgrade` — Self-upgrade to latest version
+
+**Deep dive**: [docs/gstack-integration.md](docs/gstack-integration.md)
+
+For skill registration issues: `cd .claude/skills/gstack && ./setup`
+
+---
+
 ## Git Context
 
 **Default branch**: `main`
@@ -60,9 +90,10 @@ just help                   # Task runner recipes
 
 ## Where to Look
 
-- `docs/` — Deep dives on sync utility, shell configs, agent integration
+- `docs/` — Deep dives on sync utility, shell configs, agent integration, gstack
+- `docs/gstack-integration.md` — How gstack fits with your existing skills
 - `.common/` — Shared shell aliases and utilities
-- `.claude/skills/` — Claude Code skill definitions
+- `.claude/skills/` — Claude Code skill definitions + gstack
 - `.agents/skills/` — Codex CLI skills
 - `.codex/` — Codex CLI config and policies
 - `justfile` — Task runner recipes
