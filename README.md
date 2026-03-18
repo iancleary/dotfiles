@@ -206,7 +206,7 @@ These files live in both `.claude/` and `.codex/` (tailored to each tool's conte
 
 ### Shared Agent Skills (.agents/)
 
-Skills in `.agents/skills/` are shared across tools. Claude Code's `slidev` skill symlinks to `.agents/skills/slidev`.
+Skills in `.agents/skills/` are used by Codex CLI and other non-Claude agents. Both `.claude/skills/` and `.agents/skills/` maintain independent copies.
 
 ## Sync Tool
 

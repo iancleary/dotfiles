@@ -63,6 +63,6 @@ just help                   # Task runner recipes
 - `docs/` — Deep dives on sync utility, shell configs, agent integration
 - `.common/` — Shared shell aliases and utilities
 - `.claude/skills/` — Claude Code skill definitions
-- `.agents/skills/` — Cross-tool shared skills
+- `.agents/skills/` — Codex CLI skills
 - `.codex/` — Codex CLI config and policies
 - `justfile` — Task runner recipes

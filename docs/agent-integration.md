@@ -22,14 +22,15 @@ Claude Code versions are more detailed; Codex versions are condensed for that to
 | git-push-pr | Git add → commit → push → PR create/update | Bash, Read, Glob, Grep |
 | grill | Interrogate idea before planning | AskUserQuestion, Write |
 | interview | In-depth spec creation | AskUserQuestion, Write |
-| slidev | Developer slide presentations (symlink → .agents) | — |
+| slidev | Developer slide presentations | — |
 | test-writer | Generate tests for existing code | Bash, Read, Write, Glob, Grep |
 
-## Shared Agent Skills (.agents/)
+## Codex Agent Skills (.agents/)
 
-Cross-tool skills shared between Claude Code, Codex, and other agents:
-- `.agents/skills/grill/` — shared grill skill
-- `.agents/skills/slidev/` — Slidev presentation skill (Claude Code symlinks to this)
+Skills used by Codex CLI and other non-Claude agents:
+- `.agents/skills/git-push-pr/` — git workflow automation
+- `.agents/skills/grill/` — interrogate ideas before planning
+- `.agents/skills/slidev/` — Slidev presentation skill
 
 ## Codex CLI (.codex/)
 
@@ -42,6 +43,5 @@ Cross-tool skills shared between Claude Code, Codex, and other agents:
 
 ## Adding a New Skill
 
-1. Create `.claude/skills/<name>/SKILL.md` (or `.agents/skills/<name>/` if shared)
-2. Add to `COMMON_DOTFILES[]` or `SYNCED_SKILL_DIRS[]` in sync-dotfiles.sh
-3. If shared, symlink from `.claude/skills/<name>` → `../../.agents/skills/<name>`
+1. Create `.claude/skills/<name>/SKILL.md` for Claude Code, or `.agents/skills/<name>/SKILL.md` for Codex
+2. Both directories are in `SYNCED_SKILL_DIRS[]` in sync-dotfiles.sh, so new files are auto-discovered
