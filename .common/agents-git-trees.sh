@@ -12,13 +12,22 @@ function ga() {
     return 0
   fi
 
+  # Ensure we're in the main worktree, not a child
+  local main_worktree
+  main_worktree="$(git worktree list --porcelain | head -1 | sed 's/^worktree //')"
+  if [[ "$PWD" != "$main_worktree" ]]; then
+    echo "Error: run 'ga' from the main worktree, not a child worktree."
+    echo "Main worktree: $main_worktree"
+    return 1
+  fi
+
   local branch="$1"
   local base="$(basename "$PWD")"
   local worktree_path="../$branch--$base"
 
   git worktree add -b "$branch" "$worktree_path"
   cd "$worktree_path"
-  return 1
+  return 0
 }
 
 function gd() {
@@ -39,6 +48,9 @@ function gd() {
       cd "../$root"
       git worktree remove "$worktree" --force
       git branch -D "$branch"
+    else
+      echo "Error: current directory '$worktree' doesn't match worktree naming convention (branch--repo)"
+      echo "Navigate to a worktree created with 'ga' first."
     fi
   fi
 }

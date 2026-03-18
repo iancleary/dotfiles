@@ -72,7 +72,7 @@ SYNCED_SKILL_DIRS=(
 for skill_dir in "${SYNCED_SKILL_DIRS[@]}"; do
     while IFS= read -r -d '' file; do
         COMMON_DOTFILES+=("${file#$REPO_DIR/}")
-    done < <(find -L "$REPO_DIR/$skill_dir" -type f -print0 2>/dev/null | sort -z)
+    done < <(find -L "$REPO_DIR/$skill_dir" -type f -not -name '.*' -not -name '*~' -print0 2>/dev/null | sort -z)
 done
 
 # Optional dotfiles (synced only if they exist)
@@ -325,7 +325,8 @@ cmd_diff() {
     if [[ -z "$file" ]]; then
         error "Usage: $0 diff <filename>"
         echo "Available files:"
-        for f in "${DOTFILES[@]}"; do
+        build_file_list
+        for f in "${ALL_FILES[@]}"; do
             echo "  $f"
         done
         exit 1
