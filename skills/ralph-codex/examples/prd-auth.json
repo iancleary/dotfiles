@@ -1,0 +1,31 @@
+{
+  "title": "User Authentication System",
+  "description": "Implement secure user authentication with email/password login, sessions, and password reset",
+  "requirements": [
+    "[ ] Login page with email and password inputs",
+    "[ ] Password validation (minimum 8 chars, uppercase, lowercase, number)",
+    "[ ] User registration with email verification",
+    "[ ] Session token generation using JWT",
+    "[ ] Session persistence via HTTP-only cookies",
+    "[ ] Logout functionality that clears sessions",
+    "[ ] Password reset flow with email link",
+    "[ ] Rate limiting (5 failed attempts per hour)",
+    "[ ] Account lockout after 5 failed attempts",
+    "[ ] Unit tests for all authentication flows",
+    "[ ] Integration tests for happy path and error cases",
+    "[ ] Achieve 90%+ code coverage",
+    "[ ] Documentation with examples"
+  ],
+  "constraints": [
+    "Use bcrypt for password hashing",
+    "Sessions expire after 24 hours",
+    "No plain-text passwords in logs",
+    "HTTPS required for all auth endpoints"
+  ],
+  "acceptance_criteria": {
+    "complete": "All checkboxes marked complete",
+    "coverage": "90%+ unit test coverage",
+    "security": "Password reset tokens expire in 1 hour",
+    "performance": "Login completes in <200ms"
+  }
+}
