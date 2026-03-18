@@ -1,6 +1,6 @@
 ---
 name: git-push-pr
-description: Automate git workflow (stage, commit, push, create/update pull request). Use when you need to commit changes and open or update a PR in one go. Handles: staging files with optional filtering, writing commit messages, pushing with fallback (upstream setup), creating new PRs with gh, updating existing PRs.
+description: Automate git workflow (stage, commit, push, create/update pull request). Use when you need to commit changes and open or update a PR in one go. Handles staging files with optional filtering, writing commit messages, pushing with fallback (upstream setup), creating new PRs with gh, updating existing PRs.
 ---
 
 # Git Push PR Workflow
