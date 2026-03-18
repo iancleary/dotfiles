@@ -36,24 +36,6 @@ COMMON_DOTFILES+=(
         ".claude/principles.md"
         ".claude/soul.md"
         ".claude/settings.json"
-        ".claude/skills/interview/SKILL.md"
-        ".claude/skills/git-push-pr/SKILL.md"
-        ".claude/skills/grill/SKILL.md"
-        ".claude/skills/cargo-just/SKILL.md"
-        ".claude/skills/code-review/SKILL.md"
-        ".claude/skills/codex-review/SKILL.md"
-        ".claude/skills/test-writer/SKILL.md"
-        ".claude/skills/brainstorming/SKILL.md"
-        ".claude/skills/breadboarding/SKILL.md"
-        ".claude/skills/breadboard-reflection/SKILL.md"
-        ".claude/skills/planning/SKILL.md"
-        ".claude/skills/debugging/SKILL.md"
-        ".claude/skills/regression-investigator/SKILL.md"
-        ".claude/skills/shaping/SKILL.md"
-        ".claude/skills/improve-my-codebase/SKILL.md"
-        ".claude/skills/prd-to-issues/SKILL.md"
-        ".claude/skills/tdd/SKILL.md"
-        ".claude/skills/write-a-prd/SKILL.md"
         ".codex/agents.md"
         ".codex/principles.md"
         ".codex/soul.md"
@@ -63,10 +45,8 @@ COMMON_DOTFILES+=(
 # Skill directories with many files (synced dynamically)
 # Adding/removing files in these dirs automatically updates the sync list
 SYNCED_SKILL_DIRS=(
-    ".agents/skills/git-push-pr"
-    ".agents/skills/grill"
-    ".agents/skills/slidev"
-    ".claude/skills/slidev"
+    ".claude/skills"
+    ".agents/skills"
 )
 
 for skill_dir in "${SYNCED_SKILL_DIRS[@]}"; do
