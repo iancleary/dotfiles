@@ -88,12 +88,36 @@ For skill registration issues: `cd .claude/skills/gstack && ./setup`
 - #3: git-push-pr skill + COMMON_DOTFILES
 - #2: Interview skill
 
+## Claude Code Skills
+
+**Total**: 17 skills for comprehensive development workflow
+
+**Presentation Tools**:
+- `/slidev` — Interactive, code-rich web presentations (Markdown + Vue)
+- `/frontend-slides` — Stunning HTML presentations from scratch or PowerPoint (zero dependencies)
+
+**Product & Planning**:
+- `/grill-me`, `/write-a-prd`, `/prd-to-issues`, `/planning`, `/shaping`
+
+**Development & Testing**:
+- `/tdd`, `/test-writer`, `/code-review`, `/codex-review`, `/improve-my-codebase`
+
+**DevOps & Automation**:
+- `/git-push-pr`, `/cargo-just`
+
+**Learning & Strategic**:
+- `/interview`, `/breadboarding`, `/debugging`, `/regression-investigator`
+
+See `SKILLS-GUIDE.md` for complete documentation and recommended workflows.
+
+---
+
 ## Where to Look
 
 - `docs/` — Deep dives on sync utility, shell configs, agent integration, gstack
 - `docs/gstack-integration.md` — How gstack fits with your existing skills
 - `.common/` — Shared shell aliases and utilities
-- `.claude/skills/` — Claude Code skill definitions + gstack
+- `.claude/skills/` — Claude Code skill definitions + gstack + frontend-slides
 - `.agents/skills/` — Codex CLI skills
 - `.codex/` — Codex CLI config and policies
 - `justfile` — Task runner recipes

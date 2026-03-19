@@ -2,7 +2,7 @@
 
 **Location**: `~/.claude/skills/`  
 **Activation**: Type `/` in Claude Code editor to list and select skills  
-**Total Skills**: 16 (4 new March 2026)
+**Total Skills**: 17 (5 new March 2026)
 
 ---
 
@@ -151,7 +151,7 @@
 
 ---
 
-### 6. Bonus Linked Skill
+### 6. Design & Presentations (2 skills)
 
 #### `/slidev`
 **Purpose**: Create and present web-based slides (Markdown + Vue)  
@@ -159,6 +159,25 @@
 **Outputs**: Interactive, code-rich presentations  
 **Note**: Symlink to shared skills directory  
 **Example**: `/slidev create a talk on RF receiver architecture`
+
+#### `/frontend-slides` ✨ NEW
+**Purpose**: Create beautiful, animated HTML presentations from scratch or PowerPoint  
+**When to use**: Need visually stunning web presentations without CSS/JS knowledge  
+**Key features**:
+- Zero dependencies (single HTML files)
+- Visual style discovery (pick from generated previews)
+- PowerPoint conversion (preserves images & content)
+- Anti-AI-slop aesthetic (curated distinctive styles)
+- Production-ready, responsive, accessible code
+**Workflow**:
+1. Describe content and desired feeling
+2. See 3 visual style previews
+3. Pick your favorite style
+4. Get full presentation in your chosen style
+5. Open in browser
+**Conversions**: Also converts `.pptx` files to web slideshows  
+**Example**: `/frontend-slides I want to create a pitch deck for my AI startup`  
+**Example**: `/frontend-slides Convert my presentation.pptx to a web slideshow`
 
 ---
 
@@ -300,7 +319,9 @@ Use /tdd for implementation
 ├── git-push-pr/
 ├── cargo-just/
 ├── interview/
-└── breadboarding/
+├── breadboarding/
+├── slidev/  (symlinked)
+└── frontend-slides/  (NEW)
 ```
 
 Each skill has a `SKILL.md` file defining its behavior and workflow.
@@ -326,10 +347,12 @@ Each skill has a `SKILL.md` file defining its behavior and workflow.
 - [x] `/breadboarding` - Available
 - [x] `/codex-review` - Available
 - [x] `/slidev` - Available (linked)
+- [x] `/frontend-slides` - Available (NEW)
 
-**Total: 16 skills ready to use**
+**Total: 17 skills ready to use**
 
 ---
 
-**Last updated**: March 17, 2026  
-**Commit**: 15c103c (feat: add 4 new Claude Code skills)
+**Last updated**: March 19, 2026  
+**Latest commit**: frontend-slides integration
+**Skills added this session**: 5 new (/write-a-prd, /prd-to-issues, /tdd, /improve-my-codebase, /frontend-slides)
