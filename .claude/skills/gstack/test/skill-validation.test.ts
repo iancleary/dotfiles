@@ -218,6 +218,7 @@ describe('Update check preamble', () => {
     'ship/SKILL.md', 'review/SKILL.md',
     'plan-ceo-review/SKILL.md', 'plan-eng-review/SKILL.md',
     'retro/SKILL.md',
+    'office-hours/SKILL.md', 'debug/SKILL.md',
     'plan-design-review/SKILL.md',
     'design-review/SKILL.md',
     'design-consultation/SKILL.md',
@@ -528,6 +529,7 @@ describe('v0.4.1 preamble features', () => {
     'ship/SKILL.md', 'review/SKILL.md',
     'plan-ceo-review/SKILL.md', 'plan-eng-review/SKILL.md',
     'retro/SKILL.md',
+    'office-hours/SKILL.md', 'debug/SKILL.md',
     'plan-design-review/SKILL.md',
     'design-review/SKILL.md',
     'design-consultation/SKILL.md',
@@ -546,6 +548,108 @@ describe('v0.4.1 preamble features', () => {
       expect(content).toContain('_SESSIONS');
       expect(content).toContain('RECOMMENDATION');
     });
+  }
+
+  for (const skill of skillsWithPreamble) {
+    test(`${skill} contains escalation protocol`, () => {
+      const content = fs.readFileSync(path.join(ROOT, skill), 'utf-8');
+      expect(content).toContain('DONE_WITH_CONCERNS');
+      expect(content).toContain('BLOCKED');
+      expect(content).toContain('NEEDS_CONTEXT');
+    });
+  }
+});
+
+// --- Structural tests for new skills ---
+
+describe('office-hours skill structure', () => {
+  const content = fs.readFileSync(path.join(ROOT, 'office-hours', 'SKILL.md'), 'utf-8');
+
+  // Original structural assertions
+  for (const section of ['Phase 1', 'Phase 2', 'Phase 3', 'Phase 4', 'Phase 5', 'Phase 6',
+                          'Design Doc', 'Supersedes', 'APPROVED', 'Premise Challenge',
+                          'Alternatives', 'Smart-skip']) {
+    test(`contains ${section}`, () => expect(content).toContain(section));
+  }
+
+  // Dual-mode structure
+  for (const section of ['Startup mode', 'Builder mode']) {
+    test(`contains ${section}`, () => expect(content).toContain(section));
+  }
+
+  // Mode detection question
+  test('contains explicit mode detection question', () => {
+    expect(content).toContain("what's your goal");
+  });
+
+  // Six forcing questions (startup mode)
+  for (const question of ['Demand Reality', 'Status Quo', 'Desperate Specificity',
+                           'Narrowest Wedge', 'Observation & Surprise', 'Future-Fit']) {
+    test(`contains forcing question: ${question}`, () => expect(content).toContain(question));
+  }
+
+  // Builder mode questions
+  test('contains builder brainstorming questions', () => {
+    expect(content).toContain('coolest version');
+    expect(content).toContain('delightful');
+  });
+
+  // Intrapreneurship adaptation
+  test('contains intrapreneurship adaptation', () => {
+    expect(content).toContain('Intrapreneurship');
+  });
+
+  // YC founder discovery engine
+  test('contains YC apply CTA with ref tracking', () => {
+    expect(content).toContain('ycombinator.com/apply?ref=gstack');
+  });
+
+  test('contains "What I noticed" design doc section', () => {
+    expect(content).toContain('What I noticed about how you think');
+  });
+
+  test('contains golden age framing', () => {
+    expect(content).toContain('golden age');
+  });
+
+  test('contains Garry Tan personal plea', () => {
+    expect(content).toContain('Garry Tan, the creator of GStack');
+  });
+
+  test('contains founder signal synthesis phase', () => {
+    expect(content).toContain('Founder Signal Synthesis');
+  });
+
+  test('contains three-tier decision rubric', () => {
+    expect(content).toContain('Top tier');
+    expect(content).toContain('Middle tier');
+    expect(content).toContain('Base tier');
+  });
+
+  test('contains anti-slop examples', () => {
+    expect(content).toContain('GOOD:');
+    expect(content).toContain('BAD:');
+  });
+
+  test('contains "One more thing" transition beat', () => {
+    expect(content).toContain('One more thing');
+  });
+
+  // Operating principles per mode
+  test('contains startup operating principles', () => {
+    expect(content).toContain('Specificity is the only currency');
+  });
+
+  test('contains builder operating principles', () => {
+    expect(content).toContain('Delight is the currency');
+  });
+});
+
+describe('debug skill structure', () => {
+  const content = fs.readFileSync(path.join(ROOT, 'debug', 'SKILL.md'), 'utf-8');
+  for (const section of ['Iron Law', 'Root Cause', 'Pattern Analysis', 'Hypothesis',
+                          'DEBUG REPORT', '3-strike', 'BLOCKED']) {
+    test(`contains ${section}`, () => expect(content).toContain(section));
   }
 });
 
@@ -1015,4 +1119,41 @@ describe('QA report template', () => {
     expect(content).toContain('### Deferred Tests');
     expect(content).toContain('**Precondition:**');
   });
+});
+
+// --- Trigger phrase validation ---
+
+describe('Skill trigger phrases', () => {
+  // Skills that must have "Use when" trigger phrases in their description.
+  // Excluded: root gstack (browser tool), gstack-upgrade (gstack-specific),
+  // setup-browser-cookies (utility), humanizer (text tool), browse (subskill of gstack)
+  const SKILLS_REQUIRING_TRIGGERS = [
+    'qa', 'qa-only', 'ship', 'review', 'debug', 'office-hours',
+    'plan-ceo-review', 'plan-eng-review', 'plan-design-review',
+    'design-review', 'design-consultation', 'retro', 'document-release',
+  ];
+
+  for (const skill of SKILLS_REQUIRING_TRIGGERS) {
+    test(`${skill}/SKILL.md has "Use when" trigger phrases`, () => {
+      const skillPath = path.join(ROOT, skill, 'SKILL.md');
+      if (!fs.existsSync(skillPath)) return;
+      const content = fs.readFileSync(skillPath, 'utf-8');
+      // Extract description from frontmatter
+      const frontmatterEnd = content.indexOf('---', 4);
+      const frontmatter = content.slice(0, frontmatterEnd);
+      expect(frontmatter).toMatch(/Use when/i);
+    });
+  }
+
+  // Skills with proactive triggers should have "Proactively suggest" in description
+  for (const skill of SKILLS_REQUIRING_TRIGGERS) {
+    test(`${skill}/SKILL.md has "Proactively suggest" phrase`, () => {
+      const skillPath = path.join(ROOT, skill, 'SKILL.md');
+      if (!fs.existsSync(skillPath)) return;
+      const content = fs.readFileSync(skillPath, 'utf-8');
+      const frontmatterEnd = content.indexOf('---', 4);
+      const frontmatter = content.slice(0, frontmatterEnd);
+      expect(frontmatter).toMatch(/Proactively suggest/i);
+    });
+  }
 });
