@@ -42,9 +42,11 @@ prefix_rule(pattern=["cargo", "doc"], decision="allow")
 prefix_rule(pattern=["cargo", "tree"], decision="allow")
 prefix_rule(pattern=["cargo", "metadata"], decision="allow")
 
+# Allowed mutating cargo commands (stop prompting me to run tests)
+prefix_rule(pattern=["cargo", "test"], decision="allow")
+
 # Mutating cargo commands (build artifacts, modify lock file)
 prefix_rule(pattern=["cargo", "build"], decision="prompt")
-prefix_rule(pattern=["cargo", "test"], decision="allow")
 prefix_rule(pattern=["cargo", "run"], decision="prompt")
 prefix_rule(pattern=["cargo", "fmt"], decision="prompt")
 prefix_rule(pattern=["cargo", "add"], decision="prompt")
