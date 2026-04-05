@@ -44,7 +44,7 @@ prefix_rule(pattern=["cargo", "metadata"], decision="allow")
 
 # Mutating cargo commands (build artifacts, modify lock file)
 prefix_rule(pattern=["cargo", "build"], decision="prompt")
-prefix_rule(pattern=["cargo", "test"], decision="prompt")
+prefix_rule(pattern=["cargo", "test"], decision="allow")
 prefix_rule(pattern=["cargo", "run"], decision="prompt")
 prefix_rule(pattern=["cargo", "fmt"], decision="prompt")
 prefix_rule(pattern=["cargo", "add"], decision="prompt")
