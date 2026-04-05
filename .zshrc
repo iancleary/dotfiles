@@ -15,3 +15,9 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 ### ---- DO NOT PUT ANYTHING HERE ---- ###
+# bun completions
+[ -s "/Users/iancleary/.bun/_bun" ] && source "/Users/iancleary/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
