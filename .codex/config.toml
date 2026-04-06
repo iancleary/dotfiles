@@ -1,3 +1,2 @@
-[mcp_servers.playwright]
-command = "npx"
-args = ["@playwright/mcp@latest"]
+# Intentionally empty.
+# No MCP servers are configured by default in this repo.

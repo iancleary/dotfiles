@@ -24,9 +24,13 @@
 # For example, starting ssh-agent in .zprofile prevents spawning multiple agents when you open subshells or run scripts.
 # -------------------------------------------------------------------------------------------------------------------------------
 
-# Load git shortcuts, 1> file redirects stdout to file
-[[ ! -f ~/.common/agents-git-trees.sh ]] || source ~/.common/agents-git-trees.sh 1>/dev/null 
-[[ ! -f ~/.common/aliases.sh ]] || source ~/.common/aliases.sh 1>/dev/null 
+# Codex launches many non-interactive zsh shells. In minimal mode, keep path/env
+# setup but skip shell helpers and side effects that add noise.
+if [[ -z "${CODEX_MINIMAL_SHELL:-}" ]]; then
+  # Load git shortcuts, 1> file redirects stdout to file
+  [[ ! -f ~/.common/agents-git-trees.sh ]] || source ~/.common/agents-git-trees.sh 1>/dev/null
+  [[ ! -f ~/.common/aliases.sh ]] || source ~/.common/aliases.sh 1>/dev/null
+fi
 
 # load nvm
 export NVM_DIR="$HOME/.nvm"
@@ -35,10 +39,12 @@ export NVM_DIR="$HOME/.nvm"
 
 # load rustup and cargo
 [[ ! -f ~/.cargo/env ]] || source "$HOME/.cargo/env" 1>/dev/null
-[[ ! -f ~/.cargo/bin/just ]] || alias j=just 1>/dev/null
-[[ ! -f ~/.cargo/bin/bat ]] || alias cat=bat 1>/dev/null
-[[ ! -f ~/.cargo/bin/rg ]] || alias grep=rg 1>/dev/null
-[[ ! -f ~/.cargo/bin/zoxide ]] || eval "$(zoxide init zsh)" 1>/dev/null
+if [[ -z "${CODEX_MINIMAL_SHELL:-}" ]]; then
+  [[ ! -f ~/.cargo/bin/just ]] || alias j=just 1>/dev/null
+  [[ ! -f ~/.cargo/bin/bat ]] || alias cat=bat 1>/dev/null
+  [[ ! -f ~/.cargo/bin/rg ]] || alias grep=rg 1>/dev/null
+  [[ ! -f ~/.cargo/bin/zoxide ]] || eval "$(zoxide init zsh)" 1>/dev/null
+fi
 
 # https://github.com/dandavison/delta?tab=readme-ov-file#get-started
 # [[ ! -f ~/.cargo/bin/delta ]] || git config --global core.pager delta 1>/dev/null
@@ -53,30 +59,33 @@ export NVM_DIR="$HOME/.nvm"
 
 # Add go bin to path (if ~/go/bin directory exists)
 [[ -d ~/go/bin ]] && export PATH="$HOME/go/bin:${PATH}" 1>/dev/null
-alias lg='lazygit'
 
-# Set up fzf key bindings and fuzzy completion
-## Website recommendation: source <(fzf --zsh)
-## MacPorts install recommendation
-[[ ! -f /opt/local/share/fzf/shell/completion.zsh ]] || source /opt/local/share/fzf/shell/completion.zsh 1>/dev/null
-[[ ! -f /opt/local/share/fzf/shell/key-bindings.zsh ]] || source /opt/local/share/fzf/shell/key-bindings.zsh 1>/dev/null
-## aliases, functions, etc.
-### like: https://github.com/junegunn/fzf/wiki/examples#general
-[[ ! -f ~/.zsh/fzf.zsh ]] || source ~/.zsh/fzf.zsh 1>/dev/null 
+if [[ -z "${CODEX_MINIMAL_SHELL:-}" ]]; then
+  alias lg='lazygit'
 
-# load python (for pre-commit)
-[[ ! -f /Library/Frameworks/Python.framework/Versions/Current/Bin ]] || PATH="/Library/Frameworks/Python.framework/Versions/Current/Bin:${PATH}" 1>/dev/null
-alias pip=pip3
-alias python=python3
+  # Set up fzf key bindings and fuzzy completion
+  ## Website recommendation: source <(fzf --zsh)
+  ## MacPorts install recommendation
+  [[ ! -f /opt/local/share/fzf/shell/completion.zsh ]] || source /opt/local/share/fzf/shell/completion.zsh 1>/dev/null
+  [[ ! -f /opt/local/share/fzf/shell/key-bindings.zsh ]] || source /opt/local/share/fzf/shell/key-bindings.zsh 1>/dev/null
+  ## aliases, functions, etc.
+  ### like: https://github.com/junegunn/fzf/wiki/examples#general
+  [[ ! -f ~/.zsh/fzf.zsh ]] || source ~/.zsh/fzf.zsh 1>/dev/null
 
-# Load ssh keys (ssh-agent needs to silence stdout 1; ssh-add needs to silence stderr 2)
-[[ ! -f ~/.ssh/github_id_ed25519 ]] || eval "$(ssh-agent -s)" 1>/dev/null && ssh-add ~/.ssh/github_id_ed25519 2>/dev/null 
+  # load python (for pre-commit)
+  [[ ! -f /Library/Frameworks/Python.framework/Versions/Current/Bin ]] || PATH="/Library/Frameworks/Python.framework/Versions/Current/Bin:${PATH}" 1>/dev/null
+  alias pip=pip3
+  alias python=python3
 
-# Added by Antigravity (edited by me to handle folder not existing)
-[[ -d "$HOME/.antigravity/antigravity/bin" ]] && export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
+  # Load ssh keys (ssh-agent needs to silence stdout 1; ssh-add needs to silence stderr 2)
+  [[ ! -f ~/.ssh/github_id_ed25519 ]] || eval "$(ssh-agent -s)" 1>/dev/null && ssh-add ~/.ssh/github_id_ed25519 2>/dev/null
 
-# Add code function, allowing arguments to be passed to it
-code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
+  # Added by Antigravity (edited by me to handle folder not existing)
+  [[ -d "$HOME/.antigravity/antigravity/bin" ]] && export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
+
+  # Add code function, allowing arguments to be passed to it
+  code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
+fi
 
 # pnpm
 export PNPM_HOME="/Users/iancleary/Library/pnpm"

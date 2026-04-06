@@ -16,6 +16,13 @@ alias cg='cd "$(git rev-parse --show-toplevel 2>/dev/null)"'  # go to git main l
 
 # Editors / package managers / runners
 alias n='nvim'
+codex() {
+  (
+    export CODEX_MINIMAL_SHELL=1
+    unset SSH_AUTH_SOCK SSH_AGENT_PID GPG_AGENT_INFO
+    command codex "$@"
+  )
+}
 alias p='pnpm'
 alias prd='pnpm run dev'
 alias prb='pnpm run build'

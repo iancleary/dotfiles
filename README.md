@@ -30,8 +30,8 @@ This repository manages dotfiles for multiple operating systems with a sync util
 - **Bidirectional sync**: Pull from home to backup, push from repo to restore
 - **Shell enhancements**: Modern CLI tools (eza, bat, delta, zoxide, just)
 - **Git worktree helpers**: Functions for managing git worktrees efficiently
-- **Claude Code integration**: Custom skills and Playwright MCP for enhanced development workflow
-- **Codex CLI integration**: Command approval policies and MCP servers
+- **Claude Code integration**: Custom skills, plugins, and repo-specific settings
+- **Codex CLI integration**: Command approval policies and repo-specific settings
 - **Safe operations**: Automatic backups before overwriting files
 
 ## Quick Start
@@ -79,7 +79,7 @@ cd ~/dotfiles
 │   ├── agents.md           # Operating manual (autonomy, git, safety)
 │   ├── principles.md       # Decision-making heuristics
 │   ├── soul.md             # Voice, character, identity
-│   ├── settings.json       # Permissions, plugins, MCP servers
+│   ├── settings.json       # Permissions and plugins
 │   └── skills/             # Custom Claude skills
 │       ├── brainstorming/  # Explore intent & design before implementation
 │       ├── breadboard-reflection/ # Find design smells in breadboards
@@ -103,7 +103,7 @@ cd ~/dotfiles
 │   ├── agents.md           # Operating manual
 │   ├── principles.md       # Decision-making heuristics
 │   ├── soul.md             # Voice and character
-│   ├── config.toml         # MCP servers (Playwright)
+│   ├── config.toml         # Codex CLI config
 │   └── rules/
 │       └── user-policy.rules  # Command execution approval rules
 ├── sync-dotfiles.sh        # Dotfile synchronization utility
@@ -150,6 +150,7 @@ Modern CLI replacements and shortcuts:
 | bun | `b`, `brd`, `brb`, `brs`, `bi`, `ba`, `bad`, `bao`, `bap` |
 | Docker | `d`, `dc`, `di`, `dils`, `dirm`, `dcls`, `dcs` |
 | Rust/Just | `c` (cargo), `j` (just) |
+| Agents | `codex` (launch Codex with a minimal shell env) |
 | Search | `hg` (history grep) |
 
 ### Git Worktree Helpers (.common/agents-git-trees.sh)
@@ -191,13 +192,13 @@ These files live in both `.claude/` and `.codex/` (tailored to each tool's conte
 | `slidev` | Create web-based developer presentations with Markdown/Vue |
 | `test-writer` | Generate tests for existing code |
 
-**MCP Servers**: Playwright (browser automation via `npx @playwright/mcp@latest`)
+**MCP Servers**: None configured by default
 
 **Plugins**: rust-analyzer-lsp
 
 ### Codex CLI (.codex/)
 
-**MCP Servers**: Playwright (same as Claude Code)
+**MCP Servers**: None configured by default
 
 **Command policies** (`user-policy.rules`):
 - **allow**: Read-only commands (ls, cat, rg, find, git status/diff/log, cargo check/clippy, eza, bat, etc.)

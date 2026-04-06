@@ -11,7 +11,7 @@ Claude Code versions are more detailed; Codex versions are condensed for that to
 
 ## Claude Code (.claude/)
 
-**settings.json**: Permissions (allow git/cargo/gh/file ops, deny cargo publish), rust-analyzer-lsp plugin, Playwright MCP server
+**settings.json**: Permissions (allow git/cargo/gh/file ops, deny cargo publish) and enabled plugins
 
 **Skills** (7 total):
 
@@ -34,7 +34,7 @@ Skills used by Codex CLI and other non-Claude agents:
 
 ## Codex CLI (.codex/)
 
-**config.toml**: Playwright MCP server (`npx @playwright/mcp@latest`)
+**config.toml**: Codex CLI config. No MCP servers are configured by default.
 
 **user-policy.rules**: Tiered command approval:
 - **allow**: Read-only (ls, cat, rg, git status/diff/log, cargo check/clippy/fmt --check, eza, bat, etc.)
