@@ -18,7 +18,21 @@ prefix_rule(pattern=["bash", "-lc"], decision="prompt")
 prefix_rule(pattern=["sh", "-c"], decision="prompt")
 prefix_rule(pattern=["curl"], decision="prompt")
 prefix_rule(pattern=["wget"], decision="prompt")
-# prefix_rule(pattern=["gh"], decision="prompt")
+
+# Allow common GitHub CLI workflows so Codex does not need to fall back to noisier app flows.
+prefix_rule(pattern=["gh", "issue"], decision="allow")
+prefix_rule(pattern=["gh", "issue", "create"], decision="allow")
+prefix_rule(pattern=["gh", "issue", "edit"], decision="allow")
+prefix_rule(pattern=["gh", "pr"], decision="allow")
+prefix_rule(pattern=["gh", "run"], decision="allow")
+prefix_rule(pattern=["gh", "workflow"], decision="allow")
+
+# Allow narrow wrapped Forge cargo-run workflows that the exec layer commonly invokes via zsh.
+prefix_rule(pattern=["/bin/zsh", "-lc", "cargo run -p forge --"], decision="allow")
+prefix_rule(pattern=["/bin/zsh", "-lc", "cargo run -p forge -- skills validate --all --json"], decision="allow")
+prefix_rule(pattern=["/bin/zsh", "-lc", "cargo run -p forge -- skills status --json"], decision="allow")
+prefix_rule(pattern=["/bin/zsh", "-lc", "cargo run -p forge -- self update-check --json"], decision="allow")
+prefix_rule(pattern=["/bin/zsh", "-lc", "cargo run -p forge -- self update --json"], decision="allow")
 
 # Prompt for common mutating operations.
 # prefix_rule(pattern=["git", "add"], decision="prompt")

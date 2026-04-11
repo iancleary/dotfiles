@@ -52,6 +52,14 @@ If a `justfile` exists, prefer `just <task>` over raw cargo. Run `just --list` t
 4. `git push origin HEAD` (or `-u origin HEAD` if no upstream)
 5. `gh pr view` to check for existing PR — create with `gh pr create --fill` or update with `gh pr edit`
 
+### GitHub
+
+- Prefer `gh` CLI workflows for GitHub repository, issue, pull request, review, release, and CI work.
+- Prefer GitHub plugin skills that route through `gh` or use `gh` as the operational path.
+- Avoid direct native GitHub Codex app or connector flows when an equivalent `gh` workflow exists.
+- Only use native GitHub app flows when the user explicitly asks for them or when there is no reliable CLI path for the task.
+- When using `gh`, prefer narrow JSON reads first to keep context small and deterministic.
+
 ### Debugging
 
 **No fixes without root cause investigation.** Read error messages fully → reproduce consistently → check recent changes (`git diff`) → trace data flow backward. Form one hypothesis, test minimally, verify. If 3+ fixes fail, stop — it's likely architectural. In Rust: run failing test with `-- --nocapture`, read compiler messages carefully, draw ownership diagrams for borrow checker errors.
