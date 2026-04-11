@@ -127,6 +127,7 @@ For macOS/Linux:
 - Powerlevel10k prompt theme with instant prompt
 - Shared utilities from `.common/`
 - Same modern CLI tools as bash
+- Keep GitHub SSH auth for Codex/non-interactive use in `~/.ssh/config` + keychain, with `~/.zprofile` only as a guarded fallback
 
 ### Git (.gitconfig)
 
