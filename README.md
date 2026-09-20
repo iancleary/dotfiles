@@ -23,7 +23,7 @@ mise bootstrap dotfiles status
 Commit intended changes here. On another enrolled host, run `git pull --ff-only`
 in this checkout, then `mise bootstrap dotfiles apply --dry-run` and
 `mise bootstrap dotfiles apply`. Verify the target application afterward.
-The first block was applied on Homelab and the Mac mini on 2026-09-20.
+The keybinding block was applied on all four enrolled hosts on 2026-09-20.
 Apply it to new hosts after verifying Codex installation. `npx skills add` remains the skill installer.
 Nix/Home Manager continues to own stable packages and generated shell and SSH
 configuration until an individual path is migrated with one explicit owner.
@@ -36,7 +36,7 @@ shared selection includes Codex, Herdr, Node/npm, pnpm, Rust, Python, uv, Go,
 GitHub CLI, ast-grep, Neovim, Basecamp CLI, Stripe CLI, Typst, and yt-dlp.
 Home Manager should not install the same binaries on enrolled hosts.
 
-As of 2026-09-20, Homelab, Mac mini, and OpenClaw link this repo's
+As of 2026-09-20, Homelab, MacBook, Mac mini, and OpenClaw link this repo's
 `mise.toml` to
 `~/.config/mise/config.toml`. Homelab also links
 `mise/hosts/homelab.toml` to `~/.config/mise/conf.d/homelab.toml`. Run
