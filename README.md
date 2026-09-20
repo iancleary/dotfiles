@@ -14,12 +14,16 @@ for its workspace and tab navigation.
 From this checkout:
 
 ```sh
-mise dot apply --dry-run
-mise dot apply
-mise dot status
+mise bootstrap dotfiles apply --dry-run
+mise bootstrap dotfiles apply
+mise bootstrap dotfiles status
 ```
 
-Commit intended changes here. Apply a reviewed commit on each selected host,
-then verify the target application. `npx skills add` remains the skill installer.
+Commit intended changes here. On another enrolled host, run `git pull --ff-only`
+in this checkout, then `mise bootstrap dotfiles apply --dry-run` and
+`mise bootstrap dotfiles apply`. Verify the target application afterward.
+The first block was applied on Homelab and the Mac mini on 2026-09-20.
+OpenClaw has no Codex executable in its current shell, so it is not enrolled
+for this setting. `npx skills add` remains the skill installer.
 Nix/Home Manager continues to own stable packages and generated shell and SSH
 configuration until an individual path is migrated with one explicit owner.
