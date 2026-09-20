@@ -36,6 +36,13 @@ shared selection includes Codex, Herdr, Node/npm, pnpm, Rust, Python, uv, Go,
 GitHub CLI, ast-grep, Neovim, Basecamp CLI, Stripe CLI, Typst, and yt-dlp.
 Home Manager should not install the same binaries on enrolled hosts.
 
+Herdr is the only exact shared pin. Node follows major 26 and pnpm major 12;
+Go follows 1.27 and Python 3.14. Codex, GitHub CLI, ast-grep, Basecamp,
+Neovim, Rust, uv, and Typst request `latest`. Those requests advance only
+when a host runs an explicit mise upgrade or fresh resolution; `git pull`
+alone does not update an installed executable. Node 26 is the current major
+as of this selection, not the active LTS line.
+
 As of 2026-09-20, Homelab, MacBook, Mac mini, and OpenClaw link this repo's
 `mise.toml` to
 `~/.config/mise/config.toml`. Homelab also links
@@ -52,8 +59,8 @@ is shared here. The `npx skills add` workflow remains independent.
 On OpenClaw, use a login shell (`bash -lc`) when invoking mise over Tailscale
 SSH; its non-login SSH shell does not load mise onto `PATH`.
 
-When advancing tools, edit the shared request on Homelab, run `mise install`,
-check the command versions and an application smoke test, then commit and
-push. Other hosts pull and run `mise install` before activating any Home
-Manager profile that removes the old executable. The public manifest contains
+When advancing a rolling tool, run `mise upgrade TOOL` on Homelab, check the
+selected version and an application smoke test, then run the same upgrade on
+other hosts. For a major or minor line change, edit the shared request, commit
+and push, then pull and run `mise install` on each host. The public manifest contains
 no credentials; GitHub CLI auth stays in each user's local state.
