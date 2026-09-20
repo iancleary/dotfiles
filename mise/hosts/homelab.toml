@@ -1,7 +1,3 @@
-# Homelab leads fast-moving interactive tools.
-[tools]
-codex = "latest"
-node = "26.9.0"
-
+# Homelab may override shared selections here when testing a candidate.
 [settings.upgrade]
 auto_prune = false
