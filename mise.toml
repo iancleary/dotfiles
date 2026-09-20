@@ -1,5 +1,16 @@
-# Fast-moving user configuration. Run `mise dot apply --dry-run` before applying.
-# Nix/Home Manager remains the owner of generated shell and SSH configuration.
+# Shared fast-moving user tools. Host-specific additions live in mise/hosts/.
+[tools]
+herdr = "0.9.1"
+python = "3.14"
+rust = "latest"
+uv = "latest"
+
+[settings]
+idiomatic_version_file_enable_tools = ["python", "rust"]
+
+[settings.python]
+uv_venv_auto = "source"
+
 [dotfiles]
 "~/.codex/config.toml/queued_question_keys" = { block = '''
 [tui.keymap.chat]

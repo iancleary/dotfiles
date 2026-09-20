@@ -6,7 +6,8 @@ no credentials, private keys, sessions, caches, or machine-specific trust state.
 
 ## First managed setting
 
-`mise.toml` owns only the queued-question keybindings in `~/.codex/config.toml`.
+`mise.toml` owns the shared Herdr, Rust, Python, and uv selections, plus the
+queued-question keybindings in `~/.codex/config.toml`.
 The marked block keeps Codex's other settings writable. Shift+Left opens a
 queued question inside Herdr; Shift+Right moves back. Herdr keeps Alt+arrow
 for its workspace and tab navigation.
@@ -27,3 +28,22 @@ OpenClaw has no Codex executable in its current shell, so it is not enrolled
 for this setting. `npx skills add` remains the skill installer.
 Nix/Home Manager continues to own stable packages and generated shell and SSH
 configuration until an individual path is migrated with one explicit owner.
+
+## Mise tool ownership
+
+Homelab leads the shared tool selection. Its extra Codex and Node requests live
+in `mise/hosts/homelab.toml`. Mac mini keeps Codex from npm and Node from Nix;
+OpenClaw keeps Node from Nix and has no Codex command in its current shell.
+Do not add tools to the shared list merely because they appear on Homelab.
+
+On an enrolled host, link this repo's `mise.toml` to
+`~/.config/mise/config.toml`. On Homelab, also link
+`mise/hosts/homelab.toml` to `~/.config/mise/conf.d/homelab.toml`. Run
+`mise config ls`, `mise ls --current`, and `mise install` to inspect and apply
+selection. Check each application after an upgrade. `latest` is a moving request;
+`mise ls --current` records the resolved version at inspection time.
+A project `mise.toml` can override these global defaults.
+
+The Codex binary is mise-owned on Homelab, but its auth, sessions, project
+trust, and other live settings remain local. Only the selected keybinding block
+is shared here. The `npx skills add` workflow remains independent.

@@ -1,0 +1,7 @@
+# Homelab leads fast-moving interactive tools.
+[tools]
+codex = "latest"
+node = "26.9.0"
+
+[settings.upgrade]
+auto_prune = false
