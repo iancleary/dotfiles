@@ -1,0 +1,8 @@
+# Fast-moving user configuration. Run `mise dot apply --dry-run` before applying.
+# Nix/Home Manager remains the owner of generated shell and SSH configuration.
+[dotfiles]
+"~/.codex/config.toml/queued_question_keys" = { block = '''
+[tui.keymap.chat]
+edit_queued_message = "shift-left"
+prompt_stack_back = "shift-right"
+''' }
