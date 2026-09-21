@@ -43,6 +43,18 @@ when a host runs an explicit mise upgrade or fresh resolution; `git pull`
 alone does not update an installed executable. Node 26 is the current major
 as of this selection, not the active LTS line.
 
+`mise.lock` records exact Linux x64 and macOS arm64 resolutions for fleet
+rollout. Prepare a candidate on Homelab with:
+
+```sh
+MISE_SAFE=1 mise lock --global --bump \
+  --platform linux-x64,macos-arm64 --json
+mise install --locked
+```
+
+Review and commit the lockfile before follower rollout. Herdr's exact request
+must remain `0.9.1`. Prior tool installations are retained to support recovery.
+
 As of 2026-09-20, Homelab, MacBook, Mac mini, and OpenClaw link this repo's
 `mise.toml` to
 `~/.config/mise/config.toml`. Homelab also links

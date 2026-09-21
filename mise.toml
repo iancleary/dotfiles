@@ -19,9 +19,13 @@ uv = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = ["python", "rust"]
+lockfile = true
 
 [settings.python]
 uv_venv_auto = "source"
+
+[settings.upgrade]
+auto_prune = false
 
 [dotfiles]
 "~/.codex/config.toml/queued_question_keys" = { block = '''
