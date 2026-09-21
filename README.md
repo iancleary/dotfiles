@@ -76,3 +76,64 @@ selected version and an application smoke test, then run the same upgrade on
 other hosts. For a major or minor line change, edit the shared request, commit
 and push, then pull and run `mise install` on each host. The public manifest contains
 no credentials; GitHub CLI auth stays in each user's local state.
+
+## Work-machine profile
+
+This repository also provides an opt-in workstation path for a machine outside
+my personal fleet. It has two independent parts:
+
+- `mise/workstation/mise.toml` selects portable, fast-moving CLIs. It excludes
+  Herdr, Basecamp, HEY, Stripe, and the fleet's Codex keybindings. It uses the
+  shared `mise.lock` for exact Linux x64 and macOS arm64 downloads.
+- `homeManagerModules.workstation` installs stable user CLIs from the public
+  `flake.nix`. It does not declare a username, Git identity, SSH keys, secrets,
+  shell startup, services, or private flake inputs. A local consuming
+  flake provides the machine identity and any work-specific settings.
+
+Check the machine's software policy before installing Nix or mise. The work
+profile is optional; a project `mise.toml` can still select different versions.
+On a new machine, clone this repository, install mise through an approved
+machine-local method, and link the work profile explicitly:
+
+```sh
+mkdir -p ~/.config/mise
+ln -s "$PWD/mise/workstation/mise.toml" ~/.config/mise/config.toml
+ln -s "$PWD/mise.lock" ~/.config/mise/mise.lock
+cd ~
+mise install --locked
+mise ls --current
+```
+
+Run the link commands from the dotfiles checkout. They fail if those destinations
+already exist, so inspect existing configuration before replacing anything.
+Run `mise install --locked` outside the checkout: the repository root's personal
+`mise.toml` is deliberately a different selection. On a work machine, pull
+the repository's reviewed main branch and rerun the install; the links
+continue to point at the updated files. Do not use the personal fleet's
+Ansible rollout on work machines.
+
+For the stable CLI layer, use an approved Determinate Nix installation and
+Home Manager. Create a local flake from the public template:
+
+```sh
+mkdir -p ~/Work/workstation-home
+cd ~/Work/workstation-home
+nix flake init -t github:iancleary/dotfiles#workstation
+```
+
+Set `system`, `home.username`, and `home.homeDirectory` in the generated files.
+Use `aarch64-darwin` and `/Users/<name>` for Apple Silicon macOS, or
+`x86_64-linux` and `/home/<name>` for Linux. Keep work-specific Git, SSH,
+secrets, and shell settings in that local flake. Then build and inspect before
+activation:
+
+```sh
+nix build .#homeConfigurations.work.activationPackage
+nix run .#home-manager -- switch --flake .#work
+```
+
+The consuming flake records exact Nix inputs in its own `flake.lock`. Review
+its first lock and subsequent updates under the work machine's own policy.
+The shared module can be updated independently of Nix by changing the public
+dotfiles revision in that lock. The personal `nix-fleet` repository remains the
+owner of personal machine profiles and is not a work-machine dependency.
