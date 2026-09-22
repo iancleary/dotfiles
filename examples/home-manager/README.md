@@ -16,7 +16,8 @@ Set the Home Manager state version appropriate to the new profile. Add private
 Git, SSH, secrets, and host integrations only in that consumer's `home.nix`.
 
 The imported modules install the stable workstation CLI set, enable the shared
-shell, activate mise when installed, and load the Git worktree functions.
+shell, activate mise when installed, load Oh My Pi completion when `omp` is
+available, and load the Git worktree functions.
 `just` comes from the consuming machine's mise selection. The public
 `mise/workstation/mise.toml` profile includes it; this Home Manager example
 does not install mise tools or select that profile.
