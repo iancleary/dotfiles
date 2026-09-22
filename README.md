@@ -46,8 +46,8 @@ advance only when a host runs an explicit mise upgrade or fresh resolution; `git
 alone does not update an installed executable. Node 26 is the current major
 as of this selection, not the active LTS line.
 
-`mise.lock` records exact Linux x64 and macOS arm64 resolutions for fleet
-rollout. Prepare a candidate on Homelab with:
+`mise.lock` records exact Linux x64 and macOS arm64 resolutions for
+repeatable rollout. Prepare a candidate on Homelab with:
 
 ```sh
 MISE_SAFE=1 mise lock --global --bump \
@@ -119,7 +119,7 @@ modules = [
 For WSL, `dotfiles.homeManagerModules.wslVsCode` needs a machine-local
 `publicShell.wslVsCodePath` pointing to the Windows user's VS Code launcher.
 The macOS and WSL VS Code modules should not be imported together. Personal
-Git identity, SSH credentials, the fleet's Codex session wrapper, and activation
+Git identity, SSH credentials, any Codex session wrapper, and activation
 policy remain with the consuming configuration.
 
 Powerlevel10k is available in the public shell module behind
