@@ -11,6 +11,7 @@
       miseActivation = import ./nix/shell/mise-activation.nix;
       macosVsCode = import ./nix/shell/macos-vscode.nix;
       herdrCompletion = import ./nix/shell/herdr-completion.nix;
+      ompCompletion = import ./nix/shell/omp-completion.nix;
       gitWorktrees = import ./nix/shell/git-worktrees.nix;
       wslVsCode = import ./nix/shell/wsl-vscode.nix;
     };

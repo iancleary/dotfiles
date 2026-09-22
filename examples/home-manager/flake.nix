@@ -20,6 +20,7 @@
           dotfiles.homeManagerModules.workstation
           dotfiles.homeManagerModules.shell
           dotfiles.homeManagerModules.miseActivation
+          dotfiles.homeManagerModules.ompCompletion
           dotfiles.homeManagerModules.gitWorktrees
           ./home.nix
         ] ++ extraModules;

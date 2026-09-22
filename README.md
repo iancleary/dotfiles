@@ -34,15 +34,15 @@ configuration until an individual path is migrated with one explicit owner.
 
 Homelab leads the shared tool selection. `mise/hosts/homelab.toml` holds
 only its upgrade policy and can carry temporary candidate overrides. The
-shared selection includes Codex, Herdr, Node/npm, pnpm, Rust, Python, uv, Go,
-`just`, GitHub CLI, HTTPie, ast-grep, Neovim, Basecamp CLI, Stripe CLI, Typst,
-and yt-dlp.
+shared selection includes Codex, Oh My Pi, Herdr, Node/npm, pnpm, Rust, Python,
+uv, Go, `just`, GitHub CLI, HTTPie, ast-grep, Neovim, Basecamp CLI, Stripe
+CLI, Typst, and yt-dlp.
 Home Manager should not install the same binaries on enrolled hosts.
 
 Herdr is the only exact shared pin. Node follows major 26 and pnpm major 12;
-Go follows 1.27 and Python 3.14. Codex, GitHub CLI, ast-grep, Basecamp,
-Neovim, Rust, uv, HTTPie, `just`, and Typst request `latest`. Those requests
-advance only when a host runs an explicit mise upgrade or fresh resolution; `git pull`
+Go follows 1.27 and Python 3.14. Codex, Oh My Pi, GitHub CLI, ast-grep,
+Basecamp, Neovim, Rust, uv, HTTPie, `just`, and Typst request `latest`.
+Those requests advance only when a host runs an explicit mise upgrade or fresh resolution; `git pull`
 alone does not update an installed executable. Node 26 is the current major
 as of this selection, not the active LTS line.
 
@@ -79,6 +79,18 @@ selected version and an application smoke test, then run the same upgrade on
 other hosts. For a major or minor line change, edit the shared request, commit
 and push, then pull and run `mise install` on each host. The public manifest contains
 no credentials; GitHub CLI auth stays in each user's local state.
+
+## Oh My Pi harness
+
+Mise installs the locked `omp` executable on Linux x64 and macOS arm64. Oh My
+Pi keeps settings, provider authentication, sessions, and other writable state
+under its machine-local agent directory; none of that state belongs in this
+public repository. It can discover existing Codex skills and repository
+`AGENTS.md` instructions without copying them.
+
+See [the Oh My Pi harness guide](docs/oh-my-pi.md) for installation, isolated
+profile testing, provider login, rollout checks, and updates. Home Manager
+consumers can import `homeManagerModules.ompCompletion` for Zsh completion.
 
 ## Public Home Manager modules
 

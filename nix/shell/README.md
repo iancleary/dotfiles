@@ -6,9 +6,9 @@ configuration pins a release and selects the modules it needs.
 Each `.nix` file is a separate Home Manager module that a consumer may import.
 `core.nix` supplies Zsh, fzf, zoxide, aliases, Delta presentation, and the Home
 Manager profile PATH. Optional modules provide npm prefix, user tool paths,
-Homebrew paths, mise activation, macOS VS Code, Herdr completion, Git worktree
-helpers, and WSL VS Code. The macOS and WSL `code` functions are alternatives;
-do not import both into one profile.
+Homebrew paths, mise activation, macOS VS Code, Herdr and Oh My Pi
+completion, Git worktree helpers, and WSL VS Code. The macOS and WSL `code`
+functions are alternatives; do not import both into one profile.
 
 The core shell module includes an optional Powerlevel10k feature. Set
 `publicShell.powerlevel10k.enable = true` to install the prompt and seed the
