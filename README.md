@@ -33,12 +33,12 @@ configuration until an individual path is migrated with one explicit owner.
 Homelab leads the shared tool selection. `mise/hosts/homelab.toml` holds
 only its upgrade policy and can carry temporary candidate overrides. The
 shared selection includes Codex, Herdr, Node/npm, pnpm, Rust, Python, uv, Go,
-GitHub CLI, ast-grep, Neovim, Basecamp CLI, Stripe CLI, Typst, and yt-dlp.
+GitHub CLI, HTTPie, ast-grep, Neovim, Basecamp CLI, Stripe CLI, Typst, and yt-dlp.
 Home Manager should not install the same binaries on enrolled hosts.
 
 Herdr is the only exact shared pin. Node follows major 26 and pnpm major 12;
 Go follows 1.27 and Python 3.14. Codex, GitHub CLI, ast-grep, Basecamp,
-Neovim, Rust, uv, and Typst request `latest`. Those requests advance only
+Neovim, Rust, uv, HTTPie, and Typst request `latest`. Those requests advance only
 when a host runs an explicit mise upgrade or fresh resolution; `git pull`
 alone does not update an installed executable. Node 26 is the current major
 as of this selection, not the active LTS line.
