@@ -4,7 +4,7 @@
 # dependencies = []
 # ///
 
-"""Create a validated, calendar-versioned nix-fleet release."""
+"""Create a validated, calendar-versioned dotfiles release."""
 
 from __future__ import annotations
 

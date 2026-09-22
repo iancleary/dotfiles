@@ -1,7 +1,7 @@
-# Public Home Manager shell drafts
+# Public Home Manager shell modules
 
-These files are exported by the checkout's flake. The fleet does not yet import
-or activate them; the consuming profile decides which modules to use.
+These files are exported by the checkout's flake. A consuming Home Manager
+configuration pins a release and selects the modules it needs.
 
 Each `.nix` file is a separate Home Manager module that a consumer may import.
 `core.nix` supplies Zsh, fzf, zoxide, aliases, Delta presentation, and the Home
@@ -17,13 +17,15 @@ writable for `p10k configure`; disabling the flag leaves it untouched. The
 module includes no font files. Choose a compatible terminal font separately.
 
 `publicShell.npmPrefix`, `publicShell.miseCandidates`, and
-`publicShell.wslVsCodePath` let consumers supply local values. The fleet can
-set `publicShell.zoxideHook = false` and keep its current Codex-specific hook
-in its private overlay. The `codex()` wrapper and `CODEX_MINIMAL_SHELL` policy
-are deliberately absent pending a separate decision. The worktree helper is a
-reviewed variant of the fleet script. `gd` confirms the exact branch and
-worktree, and Git refuses to remove a dirty worktree.
+`publicShell.wslVsCodePath` let consumers supply local values. A consumer can
+set `publicShell.zoxideHook = false` and supply a gated hook in its own
+configuration. The `codex()` wrapper and `CODEX_MINIMAL_SHELL` policy are
+deliberately absent pending a separate decision. The worktree helper requires
+confirmation before deletion. `gd` confirms the exact branch and worktree, and
+Git refuses to remove a dirty worktree.
 
-Promotion requires review of the flake export, the fleet's pinned dotfiles
-input, and native builds for affected Home Manager profiles. These drafts do not
-change the owner of generated shell files: Home Manager remains that writer.
+A change to these modules needs review of the flake export, an updated consumer
+pin, and native builds for affected Home Manager profiles. This repository's
+`mise.toml` and `mise.lock` are a separate host-side tool selection; changing a
+consumer flake pin does not update installed mise tools. Home Manager remains
+the writer of generated shell files.

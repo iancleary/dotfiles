@@ -2,10 +2,10 @@
 
 This flake shows how another repository can compose the public modules while
 owning its Nixpkgs and Home Manager pins, user identity, and local policy. It is
-an example, not an activated profile or a fleet target.
+an example, not an activated profile or deployment target.
 
-Nixpkgs comes from FlakeHub's `0.2605.*` release range, matching the fleet's
-current package series. The consumer's `flake.lock` fixes the exact resolution;
+Nixpkgs comes from FlakeHub's `0.2605.*` release range as an
+example consumer pin. The consumer's `flake.lock` fixes the exact resolution;
 review and build before updating it. The public dotfiles flake itself has no
 Nixpkgs input because its modules accept the consumer's `pkgs`.
 

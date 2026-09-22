@@ -1,5 +1,5 @@
 # Optional shared work-machine tool selection. Projects may override it.
-# Personal fleet tools and services are deliberately outside this profile.
+# Personal tools and services are deliberately outside this profile.
 [tools]
 ast-grep = "latest"
 codex = "latest"
