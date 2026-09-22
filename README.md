@@ -1,8 +1,10 @@
 # Dotfiles
 
-Personal configuration that can change without a Nix or Home Manager build.
-Mise applies the selected files or marked blocks. This public repository holds
-no credentials, private keys, sessions, caches, or machine-specific trust state.
+Public mise configuration and reusable Home Manager modules. Mise applies its
+selected files or marked blocks without a Home Manager build; the Nix modules
+are applied only when a consuming profile is built and activated. This
+repository holds no credentials, private keys, sessions, caches, or
+machine-specific trust state.
 
 ## First managed setting
 
@@ -33,13 +35,14 @@ configuration until an individual path is migrated with one explicit owner.
 Homelab leads the shared tool selection. `mise/hosts/homelab.toml` holds
 only its upgrade policy and can carry temporary candidate overrides. The
 shared selection includes Codex, Herdr, Node/npm, pnpm, Rust, Python, uv, Go,
-GitHub CLI, HTTPie, ast-grep, Neovim, Basecamp CLI, Stripe CLI, Typst, and yt-dlp.
+`just`, GitHub CLI, HTTPie, ast-grep, Neovim, Basecamp CLI, Stripe CLI, Typst,
+and yt-dlp.
 Home Manager should not install the same binaries on enrolled hosts.
 
 Herdr is the only exact shared pin. Node follows major 26 and pnpm major 12;
 Go follows 1.27 and Python 3.14. Codex, GitHub CLI, ast-grep, Basecamp,
-Neovim, Rust, uv, HTTPie, and Typst request `latest`. Those requests advance only
-when a host runs an explicit mise upgrade or fresh resolution; `git pull`
+Neovim, Rust, uv, HTTPie, `just`, and Typst request `latest`. Those requests
+advance only when a host runs an explicit mise upgrade or fresh resolution; `git pull`
 alone does not update an installed executable. Node 26 is the current major
 as of this selection, not the active LTS line.
 
@@ -76,3 +79,79 @@ selected version and an application smoke test, then run the same upgrade on
 other hosts. For a major or minor line change, edit the shared request, commit
 and push, then pull and run `mise install` on each host. The public manifest contains
 no credentials; GitHub CLI auth stays in each user's local state.
+
+## Public Home Manager modules
+
+The top-level `flake.nix` exports reusable modules through
+`homeManagerModules`. See [`nix/shell/README.md`](nix/shell/README.md) for the
+module inventory, options, and review boundaries. These modules are available
+for a consuming Home Manager flake to import; this checkout does not install or
+activate them. Home Manager remains the owner of generated shell files.
+
+The public [`nix/workstation.nix`](nix/workstation.nix) module is also exported
+as `homeManagerModules.workstation`.
+It installs stable user CLIs without declaring a username, Git identity, SSH,
+shell startup, or services. The consumer supplies those settings and pins this
+repository in its own flake lock. The bootstrap script below uses the personal
+root `mise.toml`; it does not select a work-machine mise profile or activate
+this Home Manager module.
+
+`just` is selected by mise in the root manifest and the optional
+[`mise/workstation/mise.toml`](mise/workstation/mise.toml) work-machine profile;
+the workstation Home Manager module does not install it. The bootstrap script
+below applies the personal root manifest, so a work machine selects its own
+mise profile explicitly.
+
+[GitLab CLI (`glab`)](https://docs.gitlab.com/cli/) and Gitea CLI (`tea`) are optional via
+`publicWorkstation.gitLabCli` and `publicWorkstation.giteaCli`; both default to
+false.
+
+A consumer can select individual modules in its own Home Manager configuration:
+
+```nix
+modules = [
+  dotfiles.homeManagerModules.shell
+  dotfiles.homeManagerModules.miseActivation
+  dotfiles.homeManagerModules.gitWorktrees
+];
+```
+
+For WSL, `dotfiles.homeManagerModules.wslVsCode` needs a machine-local
+`publicShell.wslVsCodePath` pointing to the Windows user's VS Code launcher.
+The macOS and WSL VS Code modules should not be imported together. Personal
+Git identity, SSH credentials, the fleet's Codex session wrapper, and activation
+policy remain with the consuming configuration.
+
+Powerlevel10k is available in the public shell module behind
+`publicShell.powerlevel10k.enable = true`. It seeds a writable prompt config
+only when one is absent; the consuming machine supplies its font separately.
+
+## Bootstrap a new macOS or Linux user
+
+Download the published `bootstrap.sh` from `main` and run it:
+
+```sh
+curl --proto '=https' --tlsv1.2 -fsSL \
+  https://raw.githubusercontent.com/iancleary/dotfiles/main/bootstrap.sh \
+  -o /tmp/dotfiles-bootstrap.sh
+bash /tmp/dotfiles-bootstrap.sh --dry-run
+bash /tmp/dotfiles-bootstrap.sh
+```
+
+The script requires `git` and `curl`. It clones this repository to
+`~/Work/dotfiles` unless that checkout already exists (`DOTFILES_DIR` can
+change the location). It installs mise with the official mise installer and
+Determinate Nix with its official installer only when each command is absent.
+An existing Nix installation is left alone. It then links this repository's
+`mise.toml` and `mise.lock` as the global mise configuration, runs
+`mise install --locked`, previews the mise-managed dotfiles, and applies them.
+It never pulls or resets an existing checkout and refuses to replace an
+existing different mise configuration. The Determinate installer may request
+administrator authorization. This bootstrap does not activate Home Manager;
+import the public modules from a separate, pinned consuming flake. Until a
+consumer configures shell activation, run mise by its installed path or use
+`mise exec` explicitly.
+
+See [`examples/home-manager/`](examples/home-manager/) for a small consumer
+flake that composes the public workstation and shell modules without supplying
+personal machine settings.
