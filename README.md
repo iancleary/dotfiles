@@ -155,3 +155,9 @@ consumer configures shell activation, run mise by its installed path or use
 See [`examples/home-manager/`](examples/home-manager/) for a small consumer
 flake that composes the public workstation and shell modules without supplying
 personal machine settings.
+
+## Releases
+
+Releases are GitHub tags using `YYYY.MM.DD.XX`, starting at `.00` each day.
+See [`docs/release.md`](docs/release.md) for the release runner, dry run,
+validation, and recovery procedure.
