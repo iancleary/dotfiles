@@ -24,12 +24,19 @@ After updating this checkout on an enrolled machine:
 mise install --locked 'github:can1357/oh-my-pi'
 omp --version
 omp config path
+omp config set tools.approvalMode always-ask
+omp config set secrets.enabled true
+omp config get tools.approvalMode --json
+omp config get secrets.enabled --json
 ```
 
 The version must match `mise.lock`, and `omp config path` should report the
-machine-local agent directory. Home Manager consumers may import
-`dotfiles.homeManagerModules.ompCompletion` to generate Zsh completion from the
-active `omp` executable.
+machine-local agent directory. The initial `always-ask` policy auto-approves
+read-only tools and prompts for mutations. Secret obfuscation redacts configured
+secrets and credential-shaped tokens before provider requests. Both settings
+remain machine-local and can be changed after the harness passes its trial.
+Home Manager consumers may import `dotfiles.homeManagerModules.ompCompletion`
+to generate Zsh completion from the active `omp` executable.
 
 To inspect the harness without sharing default-profile state, use a named
 profile:
