@@ -88,9 +88,10 @@ under its machine-local agent directory; none of that state belongs in this
 public repository. It can discover existing Codex skills and repository
 `AGENTS.md` instructions without copying them.
 
-See [the Oh My Pi harness guide](docs/oh-my-pi.md) for installation, isolated
-profile testing, provider login, rollout checks, and updates. Home Manager
-consumers can import `homeManagerModules.ompCompletion` for Zsh completion.
+See [the Oh My Pi harness guide](docs/oh-my-pi.md) for installation, initial
+`always-ask` approval policy, secret obfuscation, isolated profile testing,
+provider login, rollout checks, and updates. Home Manager consumers can import
+`homeManagerModules.ompCompletion` for Zsh completion.
 
 ## Public Home Manager modules
 
