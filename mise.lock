@@ -84,19 +84,19 @@ url_api = "https://api.github.com/repos/basecamp/hey-cli/releases/assets/5737307
 provenance = "github-attestations"
 
 [[tools."github:can1357/oh-my-pi"]]
-version = "18.2.8"
+version = "18.2.11"
 backend = "github:can1357/oh-my-pi"
 specifiers = ["latest"]
 
 [tools."github:can1357/oh-my-pi"."platforms.linux-x64"]
-checksum = "sha256:b0c01da7339d87fd5d26d7faa7b61c131a50648399962783899fd93a6d8b1d65"
-url = "https://github.com/can1357/oh-my-pi/releases/download/v18.2.8/omp-linux-x64"
-url_api = "https://api.github.com/repos/can1357/oh-my-pi/releases/assets/579521031"
+checksum = "sha256:97cf39557bf3d98327dd4c9814380b7e6bcb76e41169edd9b0ff30424c733a2a"
+url = "https://github.com/can1357/oh-my-pi/releases/download/v18.2.11/omp-linux-x64"
+url_api = "https://api.github.com/repos/can1357/oh-my-pi/releases/assets/583033814"
 
 [tools."github:can1357/oh-my-pi"."platforms.macos-arm64"]
-checksum = "sha256:cf8d34a7fe6f60de1acbe74f29c82026e4c07888e9d89f7ebceeb922159e5787"
-url = "https://github.com/can1357/oh-my-pi/releases/download/v18.2.8/omp-darwin-arm64"
-url_api = "https://api.github.com/repos/can1357/oh-my-pi/releases/assets/579521033"
+checksum = "sha256:faeffd57674cffa253e2f127d72ddfe6dcd81e1eb91eb5d2148913e62a010a28"
+url = "https://github.com/can1357/oh-my-pi/releases/download/v18.2.11/omp-darwin-arm64"
+url_api = "https://api.github.com/repos/can1357/oh-my-pi/releases/assets/583033821"
 
 [[tools.go]]
 version = "1.27.1"
@@ -153,17 +153,17 @@ url = "https://github.com/neovim/neovim/releases/download/v0.12.5/nvim-linux-x86
 url = "https://github.com/neovim/neovim/releases/download/v0.12.5/nvim-macos-arm64.tar.gz"
 
 [[tools.node]]
-version = "26.9.0"
+version = "26.10.0"
 backend = "core:node"
 specifiers = ["26"]
 
 [tools.node."platforms.linux-x64"]
-checksum = "sha256:03d9104fc4f19652e74480fed11c023d75981464b7292f21a601c3f95ce7d90d"
-url = "https://nodejs.org/dist/v26.9.0/node-v26.9.0-linux-x64.tar.gz"
+checksum = "sha256:cb5c9ce9c80d7b8821e3a258543c71b939138cf17c74d5cc44bbe85d6dbc5ad8"
+url = "https://nodejs.org/dist/v26.10.0/node-v26.10.0-linux-x64.tar.gz"
 
 [tools.node."platforms.macos-arm64"]
-checksum = "sha256:6f3de7ed853ee283b4bf24b6e426618f1d357401ce5815db1866eb85eb4b05d9"
-url = "https://nodejs.org/dist/v26.9.0/node-v26.9.0-darwin-arm64.tar.gz"
+checksum = "sha256:751fdf7439f115d87ee2a8f3f18c065b6151852068e3e666ac60ac2996f75ac9"
+url = "https://nodejs.org/dist/v26.10.0/node-v26.10.0-darwin-arm64.tar.gz"
 
 [[tools.pnpm]]
 version = "12.5.1"
@@ -209,19 +209,19 @@ backend = "core:rust"
 specifiers = ["latest"]
 
 [[tools.stripe]]
-version = "1.51.0"
+version = "1.51.1"
 backend = "aqua:stripe/stripe-cli"
 specifiers = ["latest"]
 
 [tools.stripe."platforms.linux-x64"]
-checksum = "sha256:e49d94a6805d726aeec50353436c665d22aa3258b8ccf85c207968e5c99be52d"
-url = "https://github.com/stripe/stripe-cli/releases/download/v1.51.0/stripe_1.51.0_linux_x86_64.tar.gz"
-url_api = "https://api.github.com/repos/stripe/stripe-cli/releases/assets/571298896"
+checksum = "sha256:38c8de73a8cab810a4aab8a4015cd4e3398b7b87aa42b6944d09d89ed524ac53"
+url = "https://github.com/stripe/stripe-cli/releases/download/v1.51.1/stripe_1.51.1_linux_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/stripe/stripe-cli/releases/assets/579769949"
 
 [tools.stripe."platforms.macos-arm64"]
-checksum = "sha256:1c678a9a8e19b88a608878903a61caac6a9a513660772a1f6dc9a08c0f863ffb"
-url = "https://github.com/stripe/stripe-cli/releases/download/v1.51.0/stripe_1.51.0_mac-os_arm64.tar.gz"
-url_api = "https://api.github.com/repos/stripe/stripe-cli/releases/assets/571296990"
+checksum = "sha256:066c56d5d04b64478c86517eebc76cacbf7b1b3cdbd17c9794ec5a81b425677a"
+url = "https://github.com/stripe/stripe-cli/releases/download/v1.51.1/stripe_1.51.1_mac-os_arm64.tar.gz"
+url_api = "https://api.github.com/repos/stripe/stripe-cli/releases/assets/579768178"
 
 [[tools.typst]]
 version = "0.15.1"
